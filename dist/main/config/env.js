@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require('dotenv').config();
+// eslint-disable-next-line no-console
+exports.default = {
+    port: process.env.PORT,
+    postgresConfig: {
+        postgresDbHost: process.env.POSTGRESQL_DB_HOST,
+        postgresDbPort: process.env.POSTGRESQL_DB_PORT,
+        postgresDbUser: process.env.POSTGRESQL_DB_USER,
+        postgresDbPassword: process.env.POSTGRESQL_DB_PASSWORD,
+        postgresDb: process.env.POSTGRESQL_DB,
+    },
+};
+//# sourceMappingURL=env.js.map
