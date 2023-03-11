@@ -9,6 +9,13 @@ export default {
     postgresDbUser: process.env.POSTGRESQL_DB_USER,
     postgresDbPassword: process.env.POSTGRESQL_DB_PASSWORD,
     postgresDb: process.env.POSTGRESQL_DB,
+
+  },
+  twilioConfig: {
+    twilioAccountSid: process.env.TWILIO_ACCOUNT_SID,
+    twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
+    twilioServiceSid: process.env.TWILIO_SERVICE_SID,
+
   },
 
 };
