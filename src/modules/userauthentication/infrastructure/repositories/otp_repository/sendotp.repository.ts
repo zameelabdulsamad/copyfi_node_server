@@ -1,9 +1,17 @@
-import { SendOtpRepositoryInterface } from '@modules/userauthentication/domain/repositories/otp_repository/sendotp.repository';
-import SendOtpTwilioAdapter from '@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/sendotp.twilioadapter';
+import { SendOtpRepositoryInterface } from '@modules/userauthentication/domain/interfaces/repositories_interface/otp/sendotp.repository';
+import { SendOtpTwilioAdapterInterface } from '../../interfaces/externaladapter_interface/otp/twilio/sendotp.twilioadapter';
 
 export class SendOtpRepository implements SendOtpRepositoryInterface {
+  sendOtpTwilioAdapterInterface: SendOtpTwilioAdapterInterface;
+
+  constructor(
+    sendOtpTwilioAdapterInterface: SendOtpTwilioAdapterInterface,
+  ) {
+    this.sendOtpTwilioAdapterInterface = sendOtpTwilioAdapterInterface;
+  }
+
   async sendOtp(userPhone: SendOtpRepositoryInterface.Request):
   Promise<SendOtpRepositoryInterface.Response> {
-    return SendOtpTwilioAdapter.sendOtp(userPhone.user_phone);
+    return this.sendOtpTwilioAdapterInterface.sendOtp(userPhone);
   }
 }

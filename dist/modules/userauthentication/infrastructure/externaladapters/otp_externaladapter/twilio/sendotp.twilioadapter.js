@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SendOtpTwilioAdapter = void 0;
 const env_1 = __importDefault(require("@main/config/env"));
 const twilio_1 = require("twilio");
 class SendOtpTwilioAdapter {
@@ -33,5 +34,5 @@ class SendOtpTwilioAdapter {
         });
     }
 }
-exports.default = new SendOtpTwilioAdapter();
+exports.SendOtpTwilioAdapter = SendOtpTwilioAdapter;
 //# sourceMappingURL=sendotp.twilioadapter.js.map

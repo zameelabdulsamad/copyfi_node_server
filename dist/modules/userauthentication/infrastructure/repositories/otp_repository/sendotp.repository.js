@@ -8,16 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SendOtpRepository = void 0;
-const sendotp_twilioadapter_1 = __importDefault(require("@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/sendotp.twilioadapter"));
 class SendOtpRepository {
+    constructor(sendOtpTwilioAdapterInterface) {
+        this.sendOtpTwilioAdapterInterface = sendOtpTwilioAdapterInterface;
+    }
     sendOtp(userPhone) {
         return __awaiter(this, void 0, void 0, function* () {
-            return sendotp_twilioadapter_1.default.sendOtp(userPhone.user_phone);
+            return this.sendOtpTwilioAdapterInterface.sendOtp(userPhone);
         });
     }
 }
