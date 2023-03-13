@@ -1,4 +1,4 @@
-import { UseCase } from '@main/interfaces/usecase/usecase';
+import { UseCase } from '@main/shared/interfaces/usecase/usecase';
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
 
 export interface SendOtpUsecaseInterface extends
