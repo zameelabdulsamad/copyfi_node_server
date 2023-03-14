@@ -3,7 +3,7 @@ import { Router, Request, Response } from 'express';
 
 export default function UserAuthenticationRoutes(router:
 Router, sendOtpUsecaseInterface: SendOtpUsecaseInterface): void {
-  router.post('/sendotp', async (req: Request, res: Response) => {
+  router.post('/userauthentication/sendotp', async (req: Request, res: Response) => {
     try {
       await sendOtpUsecaseInterface.execute(req.body);
       res.send({ message: 'otp sent' });

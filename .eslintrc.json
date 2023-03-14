@@ -26,6 +26,7 @@
         "dist"
 
     ],
+    
     "rules": {
         "import/export": "off",
         "import/prefer-default-export": "off",

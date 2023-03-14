@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 function UserAuthenticationRoutes(router, sendOtpUsecaseInterface) {
-    router.post('/sendotp', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    router.post('/userauthentication/sendotp', (req, res) => __awaiter(this, void 0, void 0, function* () {
         try {
             yield sendOtpUsecaseInterface.execute(req.body);
             res.send({ message: 'otp sent' });

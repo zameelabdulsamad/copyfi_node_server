@@ -1,7 +1,10 @@
 import env from '@main/config/env';
 import { SendOtpTwilioAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/externaladapter_interface/otp/twilio/sendotp.twilioadapter';
+import { injectable } from 'inversify';
 import { Twilio } from 'twilio';
+import 'reflect-metadata';
 
+@injectable()
 export class SendOtpTwilioAdapter implements SendOtpTwilioAdapterInterface {
   private credentials: any = {
     accountSid: env.twilioConfig.twilioAccountSid,

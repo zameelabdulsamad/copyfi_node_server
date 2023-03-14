@@ -2,7 +2,6 @@
 // import { BaseController } from '@main/shared/controllers/base.controller';
 // import { HttpRequest } from '@main/shared/interfaces/http/httprequest';
 // import { HttpResponse } from '@main/shared/interfaces/http/httpresponse';
-// import { SendOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/sendotp.usecase';
 // export interface SendOtpControllerInterface extends BaseController {
 //   execute(httpRequest: HttpRequest<any, any, any>): Promise<HttpResponse<any>>;
 // }

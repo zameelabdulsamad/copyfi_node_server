@@ -3,8 +3,6 @@
 // import { HttpRequest } from '@main/shared/interfaces/http/httprequest';
 // import { HttpResponse } from '@main/shared/interfaces/http/httpresponse';
 // import { Validation } from '@main/shared/interfaces/validation/validation';
-// import { SendOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/sendotp.usecase';
-// import { SendOtpControllerInterface } from '../../interfaces/controller_interface/otp/sendotp.controller';
 // export class SendOtpController implements SendOtpControllerInterface {
 //   sendOtpUsecaseInterface: SendOtpUsecaseInterface;
 //   constructor(
