@@ -27,7 +27,7 @@ class SendOtpTwilioAdapter {
         return __awaiter(this, void 0, void 0, function* () {
             const client = new twilio_1.Twilio(this.credentials.accountSid, this.credentials.authToken);
             client.verify.v2.services(this.credentials.serviceSid).verifications.create({
-                to: `${userPhone}`,
+                to: `${userPhone.USER_PHONE}`,
                 channel: 'sms',
             });
             return 'OTP SENT';

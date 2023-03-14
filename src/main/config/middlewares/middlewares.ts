@@ -2,7 +2,7 @@ import { bodyParser } from '@main/config/middlewares/bodyparser';
 import { contentType } from '@main/config/middlewares/contenttype';
 import { Express } from 'express';
 
-const cors = require('@main/middlewares/cors');
+const cors = require('@main/config/middlewares/cors');
 
 export default function SetupMiddlewares(app: Express): void {
   app.use(bodyParser);

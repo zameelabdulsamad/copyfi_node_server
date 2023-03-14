@@ -14,7 +14,7 @@ export class SendOtpTwilioAdapter implements SendOtpTwilioAdapterInterface {
   ): Promise<SendOtpTwilioAdapterInterface.Response> {
     const client = new Twilio(this.credentials.accountSid, this.credentials.authToken);
     client.verify.v2.services(this.credentials.serviceSid).verifications.create({
-      to: `${userPhone}`,
+      to: `${userPhone.USER_PHONE}`,
       channel: 'sms',
     });
     return 'OTP SENT';
