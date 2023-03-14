@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../controllers/base.controller';
+import { BaseController } from '../controllers/basecontroller';
 import { HttpRequest } from '../interfaces/http/httprequest';
 
 export const expressRouteAdapter = (

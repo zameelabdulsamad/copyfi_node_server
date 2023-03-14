@@ -6,7 +6,15 @@ import { SendOtpTwilioAdapterInterface } from '@modules/userauthentication/infra
 import { SendOtpRepository } from '@modules/userauthentication/infrastructure/repositories/otp_repository/sendotp.repository';
 import { Container } from 'inversify';
 
+// MODULE-USERAUTHENTICATION
+
+// USECASE-SENDOTP
+
 export const sendOtpContainer = new Container();
 sendOtpContainer.bind<SendOtpTwilioAdapterInterface>('SendOtpTwilioAdapterInterface').to(SendOtpTwilioAdapter);
 sendOtpContainer.bind<SendOtpRepositoryInterface>('SendOtpRepositoryInterface').to(SendOtpRepository);
 sendOtpContainer.bind<SendOtpUsecaseInterface>('SendOtpUsecaseInterface').to(SendOtpUsecase);
+
+// USECASE-SENDOTP
+
+// MODULE-USERAUTHENTICATION

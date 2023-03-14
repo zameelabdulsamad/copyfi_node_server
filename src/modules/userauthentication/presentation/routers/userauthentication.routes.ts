@@ -1,14 +1,13 @@
+import { sendOtpContainer } from '@main/di/inversify.config';
+import { expressRouteAdapter } from '@main/shared/adapters/expressroute.adapter';
 import { SendOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/sendotp.usecase';
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import { ValidationComposite } from '@main/shared/validations/ValidationComposite';
+import { RequiredFieldValidation } from '@main/shared/validations/RequiredFieldValidation';
+import { SendOtpController } from '../controllers/otp_controller/sentotp.controller';
 
-export default function UserAuthenticationRoutes(router:
-Router, sendOtpUsecaseInterface: SendOtpUsecaseInterface): void {
-  router.post('/userauthentication/sendotp', async (req: Request, res: Response) => {
-    try {
-      await sendOtpUsecaseInterface.execute(req.body);
-      res.send({ message: 'otp sent' });
-    } catch (err) {
-      res.status(500).send({ message: 'Error fetching data' });
-    }
-  });
+export default function UserAuthenticationRoutes(router:Router): void {
+  router.post('/userauthentication/sendotp', expressRouteAdapter(new SendOtpController(new ValidationComposite([
+    new RequiredFieldValidation('USER_PHONE'),
+  ], 'body'), sendOtpContainer.get<SendOtpUsecaseInterface>('SendOtpUsecaseInterface'))));
 }

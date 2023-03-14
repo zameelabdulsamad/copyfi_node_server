@@ -1,30 +1,30 @@
-// import { ok } from '@main/shared/helpers/http_helper/http.helper';
-// import { HttpRequest } from '@main/shared/interfaces/http/httprequest';
-// import { HttpResponse } from '@main/shared/interfaces/http/httpresponse';
-// import { Validation } from '@main/shared/interfaces/validation/validation';
+import { BaseController } from '@main/shared/controllers/basecontroller';
+import { ok } from '@main/shared/helpers/http_helper/http.helper';
+import { HttpRequest } from '@main/shared/interfaces/http/httprequest';
+import { HttpResponse } from '@main/shared/interfaces/http/httpresponse';
+import { Validation } from '@main/shared/interfaces/validation/validation';
+import { SendOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/sendotp.usecase';
 
-// export class SendOtpController implements SendOtpControllerInterface {
-//   sendOtpUsecaseInterface: SendOtpUsecaseInterface;
+export class SendOtpController extends BaseController {
+  constructor(
+    private readonly sendOtpValidation: Validation,
+    private readonly sendOtpUsecaseInterface: SendOtpUsecaseInterface,
+  ) {
+    super(sendOtpValidation);
+  }
 
-//   constructor(
-//     sendOtpUsecaseInterface: SendOtpUsecaseInterface,
-//   ) {
-//     this.sendOtpUsecaseInterface = sendOtpUsecaseInterface;
-//   }
+  async execute(
+    httpRequest: SendOtpController.Request,
+  ): Promise<SendOtpController.Response> {
+    const { USER_PHONE } = httpRequest.body!;
+    await this.sendOtpUsecaseInterface.execute({ USER_PHONE });
+    return ok({
+      authenticationToken: 'otpSent',
+    });
+  }
+}
 
-//   validation?: Validation | undefined;
-
-//   handle(httpRequest: HttpRequest<any, any, any>): Promise<HttpResponse<any>> {
-//     throw new Error('Method not implemented.');
-//   }
-
-//   async execute(
-//     httpRequest: SendOtpControllerInterface.Request,
-//   ): Promise<SendOtpControllerInterface.Response> {
-//     const { USER_PHONE } = httpRequest.body!;
-//     await this.sendOtpUsecaseInterface.execute({ USER_PHONE });
-//     return ok({
-//       authenticationToken: 'dd',
-//     });
-//   }
-// }
+export namespace SendOtpController {
+  export type Request = HttpRequest<SendOtpUsecaseInterface.Request>;
+  export type Response = HttpResponse<{ authenticationToken: string } >;
+}
