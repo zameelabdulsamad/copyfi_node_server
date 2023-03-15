@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SendOtpController = void 0;
 const basecontroller_1 = require("@main/shared/controllers/basecontroller");
 const http_helper_1 = require("@main/shared/helpers/http_helper/http.helper");
+const SendingOtpError_1 = require("@modules/userauthentication/domain/errors/SendingOtpError");
 class SendOtpController extends basecontroller_1.BaseController {
     constructor(sendOtpValidation, sendOtpUsecaseInterface) {
         super(sendOtpValidation);
@@ -21,10 +22,11 @@ class SendOtpController extends basecontroller_1.BaseController {
     execute(httpRequest) {
         return __awaiter(this, void 0, void 0, function* () {
             const { USER_PHONE } = httpRequest.body;
-            yield this.sendOtpUsecaseInterface.execute({ USER_PHONE });
-            return (0, http_helper_1.ok)({
-                authenticationToken: 'otpSent',
-            });
+            const otpSentOrError = yield this.sendOtpUsecaseInterface.execute({ USER_PHONE });
+            if (otpSentOrError instanceof SendingOtpError_1.SendingOtpError) {
+                return (0, http_helper_1.badRequest)(otpSentOrError);
+            }
+            return (0, http_helper_1.ok)(otpSentOrError);
         });
     }
 }

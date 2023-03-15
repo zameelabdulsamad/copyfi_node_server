@@ -23,6 +23,7 @@ const env_1 = __importDefault(require("@main/config/env"));
 const inversify_1 = require("inversify");
 const twilio_1 = require("twilio");
 require("reflect-metadata");
+const SendingOtpError_1 = require("@modules/userauthentication/domain/errors/SendingOtpError");
 let SendOtpTwilioAdapter = class SendOtpTwilioAdapter {
     constructor() {
         this.credentials = {
@@ -31,14 +32,22 @@ let SendOtpTwilioAdapter = class SendOtpTwilioAdapter {
             serviceSid: env_1.default.twilioConfig.twilioServiceSid,
         };
     }
-    sendOtp(userPhone) {
+    sendOtp(sendOtpData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const client = new twilio_1.Twilio(this.credentials.accountSid, this.credentials.authToken);
-            client.verify.v2.services(this.credentials.serviceSid).verifications.create({
-                to: `${userPhone.USER_PHONE}`,
-                channel: 'sms',
-            });
-            return 'OTP SENT';
+            try {
+                const client = new twilio_1.Twilio(this.credentials.accountSid, this.credentials.authToken);
+                const verification = yield client.verify.v2.services(this.credentials.serviceSid).verifications.create({
+                    to: `${sendOtpData.USER_PHONE}`,
+                    channel: 'sms',
+                });
+                if (verification.status === 'pending') {
+                    return 'OTP SENT';
+                }
+                return new SendingOtpError_1.SendingOtpError();
+            }
+            catch (error) {
+                return new SendingOtpError_1.SendingOtpError();
+            }
         });
     }
 };

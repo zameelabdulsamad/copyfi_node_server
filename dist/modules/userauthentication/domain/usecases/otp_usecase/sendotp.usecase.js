@@ -28,9 +28,9 @@ let SendOtpUsecase = class SendOtpUsecase {
     constructor(sendOtpRepositoryInterface) {
         this.sendOtpRepositoryInterface = sendOtpRepositoryInterface;
     }
-    execute(userPhone) {
+    execute(sendOtpData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.sendOtpRepositoryInterface.sendOtp(Object.assign({}, userPhone));
+            return this.sendOtpRepositoryInterface.sendOtp(Object.assign({}, sendOtpData));
         });
     }
 };

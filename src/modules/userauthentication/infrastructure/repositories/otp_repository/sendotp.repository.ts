@@ -13,8 +13,8 @@ export class SendOtpRepository implements SendOtpRepositoryInterface {
     this.sendOtpTwilioAdapterInterface = sendOtpTwilioAdapterInterface;
   }
 
-  async sendOtp(userPhone: SendOtpRepositoryInterface.Request):
+  async sendOtp(sendOtpData: SendOtpRepositoryInterface.Request):
   Promise<SendOtpRepositoryInterface.Response> {
-    return this.sendOtpTwilioAdapterInterface.sendOtp(userPhone);
+    return this.sendOtpTwilioAdapterInterface.sendOtp(sendOtpData);
   }
 }

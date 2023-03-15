@@ -28,9 +28,9 @@ let SendOtpRepository = class SendOtpRepository {
     constructor(sendOtpTwilioAdapterInterface) {
         this.sendOtpTwilioAdapterInterface = sendOtpTwilioAdapterInterface;
     }
-    sendOtp(userPhone) {
+    sendOtp(sendOtpData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.sendOtpTwilioAdapterInterface.sendOtp(userPhone);
+            return this.sendOtpTwilioAdapterInterface.sendOtp(sendOtpData);
         });
     }
 };

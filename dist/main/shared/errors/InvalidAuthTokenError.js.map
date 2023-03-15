@@ -1,0 +1,1 @@
+{"version":3,"file":"InvalidAuthTokenError.js","sourceRoot":"","sources":["../../../../src/main/shared/errors/InvalidAuthTokenError.ts"],"names":[],"mappings":";;;AAAA,MAAa,qBAAsB,SAAQ,KAAK;IAC9C;QACE,KAAK,CAAC,8BAA8B,CAAC,CAAC;QACtC,IAAI,CAAC,IAAI,GAAG,uBAAuB,CAAC;IACtC,CAAC;CACF;AALD,sDAKC"}

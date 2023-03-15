@@ -1,13 +1,14 @@
 import { UseCase } from '@main/shared/interfaces/usecase/usecase';
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
+import { SendingOtpError } from '@modules/userauthentication/domain/errors/SendingOtpError';
 
 export interface SendOtpUsecaseInterface extends
   UseCase<SendOtpUsecaseInterface.Request, SendOtpUsecaseInterface.Response> {
-  execute(userPhone: SendOtpUsecaseInterface.Request): Promise<SendOtpUsecaseInterface.Response>;
+  execute(sendOtpData: SendOtpUsecaseInterface.Request): Promise<SendOtpUsecaseInterface.Response>;
 
 }
 
 export namespace SendOtpUsecaseInterface {
-  export type Request = Omit<UserEntityInterface, 'user_uid' | 'user_email' | 'user_fullname'>;
-  export type Response = string | number;
+  export type Request = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'>;
+  export type Response = string | SendingOtpError;
 }

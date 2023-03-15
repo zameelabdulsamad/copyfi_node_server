@@ -13,10 +13,10 @@ export class SendOtpUsecase implements SendOtpUsecaseInterface {
     this.sendOtpRepositoryInterface = sendOtpRepositoryInterface;
   }
 
-  async execute(userPhone: SendOtpUsecaseInterface.Request):
+  async execute(sendOtpData: SendOtpUsecaseInterface.Request):
   Promise<SendOtpUsecaseInterface.Response> {
     return this.sendOtpRepositoryInterface.sendOtp({
-      ...userPhone,
+      ...sendOtpData,
     });
   }
 }
