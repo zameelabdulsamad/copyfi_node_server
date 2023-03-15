@@ -1,9 +1,9 @@
 import { ServerError } from '@main/shared/errors/server.error';
 import { HttpResponse } from '@main/shared/interfaces/http/httpresponse';
 
-export const ok = <T = any> (body: T): HttpResponse<T> => ({
+export const ok = <T = any> (message: T): HttpResponse<T> => ({
   statusCode: 200,
-  body,
+  body: message,
 });
 
 export const noContent = (): HttpResponse => ({

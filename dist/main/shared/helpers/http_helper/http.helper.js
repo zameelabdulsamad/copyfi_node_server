@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serverError = exports.notFound = exports.forbidden = exports.unauthorized = exports.badRequest = exports.noContent = exports.ok = void 0;
 const server_error_1 = require("@main/shared/errors/server.error");
-const ok = (body) => ({
+const ok = (message) => ({
     statusCode: 200,
-    body,
+    body: message,
 });
 exports.ok = ok;
 const noContent = () => ({

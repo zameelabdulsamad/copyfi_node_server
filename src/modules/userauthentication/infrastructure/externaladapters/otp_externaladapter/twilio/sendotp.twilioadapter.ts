@@ -25,7 +25,7 @@ export class SendOtpTwilioAdapter implements SendOtpTwilioAdapterInterface {
         channel: 'sms',
       });
       if (verification.status === 'pending') {
-        return 'OTP SENT';
+        return { message: 'OTP Sent' };
       }
       return new SendingOtpError();
     } catch (error) {

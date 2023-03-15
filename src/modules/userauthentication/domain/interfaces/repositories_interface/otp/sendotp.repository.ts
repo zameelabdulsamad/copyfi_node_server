@@ -9,5 +9,5 @@ export interface SendOtpRepositoryInterface {
 
 export namespace SendOtpRepositoryInterface {
   export type Request = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'>;
-  export type Response = string | SendingOtpError;
+  export type Response = { message: string } | SendingOtpError;
 }
