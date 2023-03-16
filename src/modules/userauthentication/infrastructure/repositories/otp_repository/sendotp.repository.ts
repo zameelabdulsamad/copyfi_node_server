@@ -1,6 +1,6 @@
 import { SendOtpRepositoryInterface } from '@modules/userauthentication/domain/interfaces/repositories_interface/otp/sendotp.repository';
 import { injectable, inject } from 'inversify';
-import { SendOtpTwilioAdapterInterface } from '../../interfaces/externaladapter_interface/otp/twilio/sendotp.twilioadapter';
+import { SendOtpTwilioAdapterInterface } from '../../interfaces/source_interface/externaladapter/otp/twilio/sendotp.twilioadapter';
 import 'reflect-metadata';
 
 @injectable()

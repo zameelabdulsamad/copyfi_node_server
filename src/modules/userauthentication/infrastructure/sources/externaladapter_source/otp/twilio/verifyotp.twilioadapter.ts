@@ -2,7 +2,7 @@ import env from '@main/config/env';
 import { injectable } from 'inversify';
 import { Twilio } from 'twilio';
 import 'reflect-metadata';
-import { VerifyOtpTwilioAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/externaladapter_interface/otp/twilio/verifyotp.twilioadapter';
+import { VerifyOtpTwilioAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/source_interface/externaladapter/otp/twilio/verifyotp.twilioadapter';
 import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
 
 @injectable()
