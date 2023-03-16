@@ -23,7 +23,7 @@ const env_1 = __importDefault(require("@main/config/env"));
 const inversify_1 = require("inversify");
 const twilio_1 = require("twilio");
 require("reflect-metadata");
-const SendingOtpError_1 = require("@modules/userauthentication/domain/errors/SendingOtpError");
+const SendingOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/SendingOtpError");
 let SendOtpTwilioAdapter = class SendOtpTwilioAdapter {
     constructor() {
         this.credentials = {

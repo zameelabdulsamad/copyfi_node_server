@@ -3,7 +3,7 @@ import { SendOtpTwilioAdapterInterface } from '@modules/userauthentication/infra
 import { injectable } from 'inversify';
 import { Twilio } from 'twilio';
 import 'reflect-metadata';
-import { SendingOtpError } from '@modules/userauthentication/domain/errors/SendingOtpError';
+import { SendingOtpError } from '@modules/userauthentication/domain/errors/otp_error/SendingOtpError';
 
 @injectable()
 export class SendOtpTwilioAdapter implements SendOtpTwilioAdapterInterface {
