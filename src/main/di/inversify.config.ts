@@ -4,8 +4,8 @@ import { SendOtpUsecaseInterface } from '@modules/userauthentication/domain/inte
 import { VerifyOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/verifyotp.usecase';
 import { SendOtpUsecase } from '@modules/userauthentication/domain/usecases/otp_usecase/sendotp.usecase';
 import { VerifyOtpUsecase } from '@modules/userauthentication/domain/usecases/otp_usecase/verifyotp.usecase';
-import { SendOtpTwilioAdapter } from '@modules/userauthentication/infrastructure/sources/externaladapter_source/otp/twilio/sendotp.twilioadapter';
-import { VerifyOtpTwilioAdapter } from '@modules/userauthentication/infrastructure/sources/externaladapter_source/otp/twilio/verifyotp.twilioadapter';
+import { SendOtpTwilioAdapter } from '@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/sendotp.twilioadapter';
+import { VerifyOtpTwilioAdapter } from '@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/verifyotp.twilioadapter';
 import { SendOtpTwilioAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/source_interface/externaladapter/otp/twilio/sendotp.twilioadapter';
 import { VerifyOtpTwilioAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/source_interface/externaladapter/otp/twilio/verifyotp.twilioadapter';
 import { SendOtpRepository } from '@modules/userauthentication/infrastructure/repositories/otp_repository/sendotp.repository';

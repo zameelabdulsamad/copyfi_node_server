@@ -1,7 +1,7 @@
 import env from '@main/config/env';
 import { join } from 'path';
 import { DataSource } from 'typeorm';
-import { UserModelEntity } from './DataModelEntity/user.datamodelentity';
+import { UserDataModelEntity } from '../datamodelentities/user.datamodelentity';
 
 export const appDataSource = new DataSource({
   type: 'postgres',
@@ -10,7 +10,7 @@ export const appDataSource = new DataSource({
   database: env.postgresConfig.postgresDb,
   password: env.postgresConfig.postgresDbPassword,
   port: 5432,
-  entities: [UserModelEntity],
+  entities: [UserDataModelEntity],
   synchronize: true,
   dropSchema: false,
   migrationsRun: true,

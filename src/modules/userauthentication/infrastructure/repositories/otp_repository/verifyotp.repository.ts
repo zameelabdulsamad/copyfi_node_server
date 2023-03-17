@@ -1,7 +1,7 @@
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
 import { VerifyOtpRepositoryInterface } from '@modules/userauthentication/domain/interfaces/repositories_interface/otp/verifyotp.repository';
-import { VerifyOtpTwilioAdapterInterface } from '../../interfaces/source_interface/externaladapter/otp/twilio/verifyotp.twilioadapter';
+import { VerifyOtpTwilioAdapterInterface } from '../../interfaces/externaladapter_interface/twilio/verifyotp.twilioadapter';
 
 @injectable()
 export class VerifyOtpRepository implements VerifyOtpRepositoryInterface {

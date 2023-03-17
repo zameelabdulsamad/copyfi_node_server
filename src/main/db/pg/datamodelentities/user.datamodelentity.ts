@@ -3,22 +3,22 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class UserModelEntity extends BaseEntity {
+export class UserDataModelEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-    user_uid!: string;
+    USER_UID!: string;
 
   @Column({
     nullable: true,
   })
-    user_email!: string;
+    USER_EMAIL!: string;
 
   @Column({
     nullable: true,
   })
-    user_fullname!: string;
+    USER_FULLNAME!: string;
 
   @Column({
     nullable: true,
   })
-    user_phone!: string;
+    USER_PHONE!: string;
 }

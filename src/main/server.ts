@@ -1,6 +1,6 @@
 import 'module-alias/register';
 import env from '@main/config/env';
-import { ConnectDb } from './db/postgreSQL/connection';
+import { ConnectDb } from './db/pg/setup/connection';
 import SetupApp from './config/app';
 
 ConnectDb()
