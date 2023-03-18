@@ -8,26 +8,26 @@ import { Repository } from 'typeorm';
 
 @injectable()
 export class RegisterUserPGDBDataHandler implements RegisterUserPGDBDataHandlerInterface {
-  userDataModelEntity: Repository<UserDataModelEntity>;
+  userDataModelEntityRepository: Repository<UserDataModelEntity>;
 
   constructor(
-  @inject('UserDataModelEntityRepository') userDataModelEntity: Repository<UserDataModelEntity>,
+  @inject('UserDataModelEntityRepository') userDataModelEntityRepository: Repository<UserDataModelEntity>,
   ) {
-    this.userDataModelEntity = userDataModelEntity;
+    this.userDataModelEntityRepository = userDataModelEntityRepository;
   }
 
   async registerUser(
     registerUserData: RegisterUserPGDBDataHandlerInterface.Request,
   ): Promise<RegisterUserPGDBDataHandlerInterface.Response> {
     try {
-      const isPhoneNumberAlreadyRegistered = (await this.userDataModelEntity.createQueryBuilder('USERS')
+      const isPhoneNumberAlreadyRegistered = (await this.userDataModelEntityRepository.createQueryBuilder('USERS')
         .select('USERS.USER_UID')
         .where('USERS.USER_PHONE = :USER_PHONE', { USER_PHONE: registerUserData.USER_PHONE })
         .getCount()) > 0;
       if (isPhoneNumberAlreadyRegistered) {
         return new PhoneInUseError();
       }
-      await this.userDataModelEntity.createQueryBuilder('USERS')
+      await this.userDataModelEntityRepository.createQueryBuilder('USERS')
         .insert().values({
           USER_EMAIL: registerUserData.USER_EMAIL,
           USER_PHONE: registerUserData.USER_PHONE,

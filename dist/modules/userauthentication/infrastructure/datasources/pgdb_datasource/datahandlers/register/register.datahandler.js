@@ -28,20 +28,20 @@ const inversify_1 = require("inversify");
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 let RegisterUserPGDBDataHandler = class RegisterUserPGDBDataHandler {
-    constructor(userDataModelEntity) {
-        this.userDataModelEntity = userDataModelEntity;
+    constructor(userDataModelEntityRepository) {
+        this.userDataModelEntityRepository = userDataModelEntityRepository;
     }
     registerUser(registerUserData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const isPhoneNumberAlreadyRegistered = (yield this.userDataModelEntity.createQueryBuilder('USERS')
+                const isPhoneNumberAlreadyRegistered = (yield this.userDataModelEntityRepository.createQueryBuilder('USERS')
                     .select('USERS.USER_UID')
                     .where('USERS.USER_PHONE = :USER_PHONE', { USER_PHONE: registerUserData.USER_PHONE })
                     .getCount()) > 0;
                 if (isPhoneNumberAlreadyRegistered) {
                     return new PhoneInUseError_1.PhoneInUseError();
                 }
-                yield this.userDataModelEntity.createQueryBuilder('USERS')
+                yield this.userDataModelEntityRepository.createQueryBuilder('USERS')
                     .insert().values({
                     USER_EMAIL: registerUserData.USER_EMAIL,
                     USER_PHONE: registerUserData.USER_PHONE,
