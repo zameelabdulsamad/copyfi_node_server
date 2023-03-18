@@ -24,20 +24,36 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VerifyOtpRepository = void 0;
 const inversify_1 = require("inversify");
 require("reflect-metadata");
+const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError");
 let VerifyOtpRepository = class VerifyOtpRepository {
-    constructor(verifyOtpTwilioAdapterInterface) {
+    constructor(verifyOtpTwilioAdapterInterface, verifyOtpPGDBDataHandlerInterface) {
         this.verifyOtpTwilioAdapterInterface = verifyOtpTwilioAdapterInterface;
+        this.verifyOtpPGDBDataHandlerInterface = verifyOtpPGDBDataHandlerInterface;
     }
     verifyOtp(verifyOtpData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.verifyOtpTwilioAdapterInterface.verifyOtp(verifyOtpData);
+            const [verifyOtpResult, checkUserExistResult] = yield Promise.all([
+                this.verifyOtpTwilioAdapterInterface.verifyOtp(verifyOtpData),
+                this.verifyOtpPGDBDataHandlerInterface.checkUserExist(verifyOtpData),
+            ]);
+            if (verifyOtpResult instanceof VerifyingOtpError_1.VerifyingOtpError) {
+                return verifyOtpResult;
+            }
+            if (checkUserExistResult instanceof VerifyingOtpError_1.VerifyingOtpError) {
+                return checkUserExistResult;
+            }
+            return {
+                message: verifyOtpResult.message,
+                userAlreadyRegisted: checkUserExistResult.userAlreadyRegisted,
+            };
         });
     }
 };
 VerifyOtpRepository = __decorate([
     (0, inversify_1.injectable)(),
     __param(0, (0, inversify_1.inject)('VerifyOtpTwilioAdapterInterface')),
-    __metadata("design:paramtypes", [Object])
+    __param(1, (0, inversify_1.inject)('VerifyOtpPGDBDataHandlerInterface')),
+    __metadata("design:paramtypes", [Object, Object])
 ], VerifyOtpRepository);
 exports.VerifyOtpRepository = VerifyOtpRepository;
 //# sourceMappingURL=verifyotp.repository.js.map

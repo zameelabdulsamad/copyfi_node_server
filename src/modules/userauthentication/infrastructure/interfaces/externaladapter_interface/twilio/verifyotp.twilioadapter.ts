@@ -3,7 +3,7 @@ import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp
 
 export interface VerifyOtpTwilioAdapterInterface {
   verifyOtp(
-    sendOtpData: VerifyOtpTwilioAdapterInterface.Request
+    verifyOtpData: VerifyOtpTwilioAdapterInterface.Request
   ): Promise<VerifyOtpTwilioAdapterInterface.Response>;
 }
 

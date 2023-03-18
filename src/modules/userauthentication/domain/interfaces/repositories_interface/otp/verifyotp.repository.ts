@@ -9,5 +9,5 @@ export interface VerifyOtpRepositoryInterface {
 
 export namespace VerifyOtpRepositoryInterface {
   export type Request = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'>;
-  export type Response = { message: string } | VerifyingOtpError;
+  export type Response = { message: string, userAlreadyRegisted: boolean } | VerifyingOtpError;
 }

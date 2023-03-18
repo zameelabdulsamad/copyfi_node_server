@@ -9,9 +9,11 @@ import { RegisterUserUsecaseInterface } from '@modules/userauthentication/domain
 import { SendOtpUsecase } from '@modules/userauthentication/domain/usecases/otp_usecase/sendotp.usecase';
 import { VerifyOtpUsecase } from '@modules/userauthentication/domain/usecases/otp_usecase/verifyotp.usecase';
 import { RegisterUserUsecase } from '@modules/userauthentication/domain/usecases/registeruser_usecase/registeruser.usecase';
+import { VerifyOtpPGDBDataHandler } from '@modules/userauthentication/infrastructure/datasources/pgdb_datasource/datahandlers/otp/verifyotp.datahandler';
 import { RegisterUserPGDBDataHandler } from '@modules/userauthentication/infrastructure/datasources/pgdb_datasource/datahandlers/register/register.datahandler';
 import { SendOtpTwilioAdapter } from '@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/sendotp.twilioadapter';
 import { VerifyOtpTwilioAdapter } from '@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/verifyotp.twilioadapter';
+import { VerifyOtpPGDBDataHandlerInterface } from '@modules/userauthentication/infrastructure/interfaces/datasource_interface/pgdb/datahandlers/otp/verifyotp.datahandler';
 import { RegisterUserPGDBDataHandlerInterface } from '@modules/userauthentication/infrastructure/interfaces/datasource_interface/pgdb/datahandlers/register/register.datahandler';
 import { SendOtpTwilioAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/externaladapter_interface/twilio/sendotp.twilioadapter';
 import { VerifyOtpTwilioAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/externaladapter_interface/twilio/verifyotp.twilioadapter';
@@ -37,6 +39,12 @@ sendOtpContainer.bind<SendOtpUsecaseInterface>('SendOtpUsecaseInterface').to(Sen
 // CONTAINER-VERIFYOTP
 
 export const verifyOtpContainer = new Container();
+verifyOtpContainer.bind<DataSource>('DataSource').toConstantValue(appDataSource);
+verifyOtpContainer.bind<Repository<UserDataModelEntity>>('UserDataModelEntityRepository').toDynamicValue(
+  (context) => context.container.get<DataSource>('DataSource').getRepository(UserDataModelEntity),
+);
+verifyOtpContainer.bind<VerifyOtpPGDBDataHandlerInterface>('VerifyOtpPGDBDataHandlerInterface').to(VerifyOtpPGDBDataHandler);
+
 verifyOtpContainer.bind<VerifyOtpTwilioAdapterInterface>('VerifyOtpTwilioAdapterInterface').to(VerifyOtpTwilioAdapter);
 verifyOtpContainer.bind<VerifyOtpRepositoryInterface>('VerifyOtpRepositoryInterface').to(VerifyOtpRepository);
 verifyOtpContainer.bind<VerifyOtpUsecaseInterface>('VerifyOtpUsecaseInterface').to(VerifyOtpUsecase);
