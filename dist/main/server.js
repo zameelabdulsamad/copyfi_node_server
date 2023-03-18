@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("module-alias/register");
 const env_1 = __importDefault(require("@main/config/env"));
-const connection_1 = require("./db/postgreSQL/connection");
+const connection_1 = require("./db/pg/setup/connection");
 const app_1 = __importDefault(require("./config/app"));
 (0, connection_1.ConnectDb)()
     .then(() => __awaiter(void 0, void 0, void 0, function* () {

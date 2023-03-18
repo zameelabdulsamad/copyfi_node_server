@@ -1,9 +1,9 @@
 import env from '@main/config/env';
-import { SendOtpTwilioAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/source_interface/externaladapter/otp/twilio/sendotp.twilioadapter';
 import { injectable } from 'inversify';
 import { Twilio } from 'twilio';
 import 'reflect-metadata';
 import { SendingOtpError } from '@modules/userauthentication/domain/errors/otp_error/SendingOtpError';
+import { SendOtpTwilioAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/externaladapter_interface/twilio/sendotp.twilioadapter';
 
 @injectable()
 export class SendOtpTwilioAdapter implements SendOtpTwilioAdapterInterface {

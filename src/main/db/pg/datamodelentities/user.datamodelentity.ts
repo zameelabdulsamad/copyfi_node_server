@@ -2,7 +2,7 @@ import {
   Entity, PrimaryGeneratedColumn, Column, BaseEntity,
 } from 'typeorm';
 
-@Entity()
+@Entity('USERS')
 export class UserDataModelEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
     USER_UID!: string;
