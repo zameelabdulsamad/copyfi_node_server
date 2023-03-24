@@ -4,6 +4,7 @@ require('dotenv').config();
 // eslint-disable-next-line no-console
 exports.default = {
     port: process.env.PORT,
+    jwtSecurityKey: process.env.JWT_SECRET_KEY,
     postgresConfig: {
         postgresDbHost: process.env.POSTGRESQL_DB_HOST,
         postgresDbPort: process.env.POSTGRESQL_DB_PORT,
