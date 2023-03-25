@@ -1,6 +1,6 @@
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
-import { LoginUserRepositoryInterface } from '../../interfaces/repositories_interface/login/loginuser.repository';
+import { LoginUserRepositoryInterface } from '../../interfaces/repositories_interface/loginuser/loginuser.repository';
 import { LoginUserUsecaseInterface } from '../../interfaces/usecases_interface/loginuser/loginuser.usecase';
 
 @injectable()

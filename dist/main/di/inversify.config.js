@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUserContainer = exports.registerUserContainer = exports.verifyOtpContainer = exports.sendOtpContainer = void 0;
+exports.authenticateUserContainer = exports.loginUserContainer = exports.registerUserContainer = exports.verifyOtpContainer = exports.sendOtpContainer = void 0;
 const user_datamodelentity_1 = require("@main/db/pg/datamodelentities/user.datamodelentity");
 const ormconfig_1 = require("@main/db/pg/setup/ormconfig");
+const authenticateuser_usecase_1 = require("@modules/userauthentication/domain/usecases/authenticateuser_usecase/authenticateuser.usecase");
 const loginuser_usecase_1 = require("@modules/userauthentication/domain/usecases/loginuser_usecase/loginuser.usecase");
 const sendotp_usecase_1 = require("@modules/userauthentication/domain/usecases/otp_usecase/sendotp.usecase");
 const verifyotp_usecase_1 = require("@modules/userauthentication/domain/usecases/otp_usecase/verifyotp.usecase");
@@ -13,7 +14,9 @@ const register_datahandler_1 = require("@modules/userauthentication/infrastructu
 const sendotp_twilioadapter_1 = require("@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/sendotp.twilioadapter");
 const verifyotp_twilioadapter_1 = require("@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/verifyotp.twilioadapter");
 const generatetoken_jwtadapter_1 = require("@modules/userauthentication/infrastructure/externaladapters/token_externaladapter/jwt/generatetoken.jwtadapter");
-const loginuser_repository_1 = require("@modules/userauthentication/infrastructure/repositories/login_repository/loginuser.repository");
+const verifytoken_jwtadapter_1 = require("@modules/userauthentication/infrastructure/externaladapters/token_externaladapter/jwt/verifytoken.jwtadapter");
+const authenticateuser_repository_1 = require("@modules/userauthentication/infrastructure/repositories/authenticate_repository/authenticateuser.repository");
+const loginuser_repository_1 = require("@modules/userauthentication/infrastructure/repositories/loginuser_repository/loginuser.repository");
 const sendotp_repository_1 = require("@modules/userauthentication/infrastructure/repositories/otp_repository/sendotp.repository");
 const verifyotp_repository_1 = require("@modules/userauthentication/infrastructure/repositories/otp_repository/verifyotp.repository");
 const registeruser_repository_1 = require("@modules/userauthentication/infrastructure/repositories/registeruser_repository/registeruser.repository");
@@ -57,6 +60,15 @@ exports.loginUserContainer.bind('LoginUserPGDBDataHandlerInterface').to(loginuse
 exports.loginUserContainer.bind('GenerateTokenJwtAdapterInterface').to(generatetoken_jwtadapter_1.GenerateTokenJwtAdapter);
 exports.loginUserContainer.bind('LoginUserRepositoryInterface').to(loginuser_repository_1.LoginUserRepository);
 exports.loginUserContainer.bind('LoginUserUsecaseInterface').to(loginuser_usecase_1.LoginUserUsecase);
+// CONTAINER-LOGINUSER
+// USECASE-LOGIN
+/* ******************************************************************************************** */
+// USECASE-AUTHENTICATE
+// CONTAINER-LOGINUSER
+exports.authenticateUserContainer = new inversify_1.Container();
+exports.authenticateUserContainer.bind('VerifyTokenJwtAdapterInterface').to(verifytoken_jwtadapter_1.VerifyTokenJwtAdapter);
+exports.authenticateUserContainer.bind('AuthenticateUserRepositoryInterface').to(authenticateuser_repository_1.AuthenticateUserRepository);
+exports.authenticateUserContainer.bind('AuthenticateUserUsecaseInterface').to(authenticateuser_usecase_1.AuthenticateUserUsecase);
 // CONTAINER-LOGINUSER
 // USECASE-LOGIN
 // MODULE-USERAUTHENTICATION
