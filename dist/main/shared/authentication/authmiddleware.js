@@ -28,11 +28,11 @@ class AuthMiddleware extends base_middleware_1.BaseMiddleware {
                 return (0, http_helper_1.forbidden)(new AuthTokenNotProvidedError_1.AuthTokenNotProvidedError());
             }
             const [, authToken] = authHeader.split(' ');
-            const userIdOrError = yield this.authenticate.execute(authToken);
-            if (userIdOrError instanceof ForbiddenError_1.ForbiddenError) {
+            const userDataOrError = yield this.authenticate.execute(authToken);
+            if (userDataOrError instanceof ForbiddenError_1.ForbiddenError) {
                 return (0, http_helper_1.forbidden)(new InvalidAuthTokenError_1.InvalidAuthTokenError());
             }
-            return (0, http_helper_1.ok)({ userId: userIdOrError });
+            return (0, http_helper_1.ok)({ userData: userDataOrError });
         });
     }
 }
