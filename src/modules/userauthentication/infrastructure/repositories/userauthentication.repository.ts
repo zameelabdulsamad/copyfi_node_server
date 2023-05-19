@@ -1,12 +1,11 @@
 import { UserAuthenticationRepositoryInterface } from '@modules/userauthentication/domain/interfaces/repositories_interface/userauthentication.repository';
 import { injectable, inject } from 'inversify';
-import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
-import { UnauthorizedError } from '@modules/userauthentication/domain/errors/login_error/UnauthorizedError';
-
 import 'reflect-metadata';
-import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError';
-import { PhoneInUseError } from '@modules/userauthentication/domain/errors/register_error/PhoneInUseError';
-import { RegisterUserError } from '@modules/userauthentication/domain/errors/register_error/RegisterUserError';
+import { PhoneInUseError } from '@modules/userauthentication/domain/errors/PhoneInUseError';
+import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/VerifyingOtpError';
+import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/IncorrectOtpError';
+import { RegisterUserError } from '@modules/userauthentication/domain/errors/RegisterUserError';
+import { UnauthorizedError } from '@modules/userauthentication/domain/errors/UnauthorizedError';
 import { UserAuthenticationPGDBDataHandlerInterface } from '../interfaces/datasource_interface/pgdb/datahandlers/userauthentication.datahandler';
 import { JwtExternalAdapterInterface } from '../interfaces/externaladapter_interface/token/jwt/jwt.externaladapter';
 import { TwilioExternalAdapterInterface } from '../interfaces/externaladapter_interface/otp/twilio/twilio.externaladapter';

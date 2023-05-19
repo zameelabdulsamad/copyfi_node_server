@@ -1,5 +1,5 @@
 import env from '@main/config/env';
-import { ForbiddenError } from '@modules/userauthentication/domain/errors/authenticate_error/ForbiddenError';
+import { ForbiddenError } from '@modules/userauthentication/domain/errors/ForbiddenError';
 import { JwtExternalAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/externaladapter_interface/token/jwt/jwt.externaladapter';
 import { injectable } from 'inversify';
 import jwt from 'jsonwebtoken';

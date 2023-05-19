@@ -20,7 +20,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JwtExternalAdapter = void 0;
 const env_1 = __importDefault(require("@main/config/env"));
-const ForbiddenError_1 = require("@modules/userauthentication/domain/errors/authenticate_error/ForbiddenError");
+const ForbiddenError_1 = require("@modules/userauthentication/domain/errors/ForbiddenError");
 const inversify_1 = require("inversify");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("reflect-metadata");

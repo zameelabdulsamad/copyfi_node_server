@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthMiddleware = void 0;
-const ForbiddenError_1 = require("@modules/userauthentication/domain/errors/authenticate_error/ForbiddenError");
+const ForbiddenError_1 = require("@modules/userauthentication/domain/errors/ForbiddenError");
 const AuthTokenNotProvidedError_1 = require("../errors/AuthTokenNotProvidedError");
 const InvalidAuthTokenError_1 = require("../errors/InvalidAuthTokenError");
 const http_helper_1 = require("../helpers/http_helper/http.helper");

@@ -3,8 +3,8 @@ import { badRequest, ok } from '@main/shared/helpers/http_helper/http.helper';
 import { HttpRequest } from '@main/shared/interfaces/http/httprequest';
 import { HttpResponse } from '@main/shared/interfaces/http/httpresponse';
 import { Validation } from '@main/shared/interfaces/validation/validation';
-import { PhoneInUseError } from '@modules/userauthentication/domain/errors/register_error/PhoneInUseError';
-import { RegisterUserError } from '@modules/userauthentication/domain/errors/register_error/RegisterUserError';
+import { PhoneInUseError } from '@modules/userauthentication/domain/errors/PhoneInUseError';
+import { RegisterUserError } from '@modules/userauthentication/domain/errors/RegisterUserError';
 import { RegisterUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/registeruser/registeruser.usecase';
 
 export class RegisterUserController extends BaseController {

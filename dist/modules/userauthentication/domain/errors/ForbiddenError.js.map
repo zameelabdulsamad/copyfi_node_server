@@ -1,0 +1,1 @@
+{"version":3,"file":"ForbiddenError.js","sourceRoot":"","sources":["../../../../../src/modules/userauthentication/domain/errors/ForbiddenError.ts"],"names":[],"mappings":";;;AAAA,MAAa,cAAe,SAAQ,KAAK;IACvC;QACE,KAAK,CAAC,WAAW,CAAC,CAAC;QACnB,IAAI,CAAC,IAAI,GAAG,gBAAgB,CAAC;IAC/B,CAAC;CACF;AALD,wCAKC"}

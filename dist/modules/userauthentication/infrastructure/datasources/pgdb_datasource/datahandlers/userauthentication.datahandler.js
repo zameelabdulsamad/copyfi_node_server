@@ -22,10 +22,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserAuthenticationPGDBDataHandler = void 0;
-const UnauthorizedError_1 = require("@modules/userauthentication/domain/errors/login_error/UnauthorizedError");
-const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError");
-const PhoneInUseError_1 = require("@modules/userauthentication/domain/errors/register_error/PhoneInUseError");
-const RegisterUserError_1 = require("@modules/userauthentication/domain/errors/register_error/RegisterUserError");
+const PhoneInUseError_1 = require("@modules/userauthentication/domain/errors/PhoneInUseError");
+const RegisterUserError_1 = require("@modules/userauthentication/domain/errors/RegisterUserError");
+const UnauthorizedError_1 = require("@modules/userauthentication/domain/errors/UnauthorizedError");
+const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/VerifyingOtpError");
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");

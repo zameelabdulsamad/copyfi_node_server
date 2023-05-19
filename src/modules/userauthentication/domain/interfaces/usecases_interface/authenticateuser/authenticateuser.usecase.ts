@@ -1,5 +1,5 @@
 import { UseCase } from '@main/shared/interfaces/usecase/usecase';
-import { ForbiddenError } from '@modules/userauthentication/domain/errors/authenticate_error/ForbiddenError';
+import { ForbiddenError } from '@modules/userauthentication/domain/errors/ForbiddenError';
 
 export interface AuthenticateUserUsecaseInterface extends
   UseCase<AuthenticateUserUsecaseInterface.Request, AuthenticateUserUsecaseInterface.Response> {

@@ -1,6 +1,6 @@
 import { UseCase } from '@main/shared/interfaces/usecase/usecase';
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
-import { SendingOtpError } from '@modules/userauthentication/domain/errors/otp_error/SendingOtpError';
+import { SendingOtpError } from '@modules/userauthentication/domain/errors/SendingOtpError';
 
 export interface SendOtpUsecaseInterface extends
   UseCase<SendOtpUsecaseInterface.Request, SendOtpUsecaseInterface.Response> {

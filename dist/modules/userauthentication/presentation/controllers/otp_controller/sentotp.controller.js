@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SendOtpController = void 0;
 const basecontroller_1 = require("@main/shared/controllers/basecontroller");
 const http_helper_1 = require("@main/shared/helpers/http_helper/http.helper");
-const SendingOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/SendingOtpError");
+const SendingOtpError_1 = require("@modules/userauthentication/domain/errors/SendingOtpError");
 class SendOtpController extends basecontroller_1.BaseController {
     constructor(sendOtpValidation, sendOtpUsecaseInterface) {
         super(sendOtpValidation);

@@ -1,8 +1,8 @@
 import { UserDataModelEntity } from '@main/db/pg/datamodelentities/user.datamodelentity';
-import { UnauthorizedError } from '@modules/userauthentication/domain/errors/login_error/UnauthorizedError';
-import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
-import { PhoneInUseError } from '@modules/userauthentication/domain/errors/register_error/PhoneInUseError';
-import { RegisterUserError } from '@modules/userauthentication/domain/errors/register_error/RegisterUserError';
+import { PhoneInUseError } from '@modules/userauthentication/domain/errors/PhoneInUseError';
+import { RegisterUserError } from '@modules/userauthentication/domain/errors/RegisterUserError';
+import { UnauthorizedError } from '@modules/userauthentication/domain/errors/UnauthorizedError';
+import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/VerifyingOtpError';
 import { UserAuthenticationPGDBDataHandlerInterface } from '@modules/userauthentication/infrastructure/interfaces/datasource_interface/pgdb/datahandlers/userauthentication.datahandler';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';

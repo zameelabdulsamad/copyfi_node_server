@@ -1,8 +1,8 @@
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
-import { UnauthorizedError } from '@modules/userauthentication/domain/errors/login_error/UnauthorizedError';
-import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
-import { PhoneInUseError } from '@modules/userauthentication/domain/errors/register_error/PhoneInUseError';
-import { RegisterUserError } from '@modules/userauthentication/domain/errors/register_error/RegisterUserError';
+import { PhoneInUseError } from '@modules/userauthentication/domain/errors/PhoneInUseError';
+import { RegisterUserError } from '@modules/userauthentication/domain/errors/RegisterUserError';
+import { UnauthorizedError } from '@modules/userauthentication/domain/errors/UnauthorizedError';
+import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/VerifyingOtpError';
 
 export interface UserAuthenticationPGDBDataHandlerInterface {
   getUserUID(

@@ -23,9 +23,9 @@ const env_1 = __importDefault(require("@main/config/env"));
 const inversify_1 = require("inversify");
 const twilio_1 = require("twilio");
 require("reflect-metadata");
-const SendingOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/SendingOtpError");
-const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError");
-const IncorrectOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError");
+const IncorrectOtpError_1 = require("@modules/userauthentication/domain/errors/IncorrectOtpError");
+const SendingOtpError_1 = require("@modules/userauthentication/domain/errors/SendingOtpError");
+const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/VerifyingOtpError");
 let TwilioExternalAdapter = class TwilioExternalAdapter {
     constructor() {
         this.credentials = {

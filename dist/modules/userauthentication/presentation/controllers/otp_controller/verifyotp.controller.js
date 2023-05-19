@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VerifyOtpController = void 0;
 const basecontroller_1 = require("@main/shared/controllers/basecontroller");
 const http_helper_1 = require("@main/shared/helpers/http_helper/http.helper");
-const IncorrectOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError");
-const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError");
+const IncorrectOtpError_1 = require("@modules/userauthentication/domain/errors/IncorrectOtpError");
+const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/VerifyingOtpError");
 class VerifyOtpController extends basecontroller_1.BaseController {
     constructor(verifyOtpValidation, verifyOtpUsecaseInterface) {
         super(verifyOtpValidation);

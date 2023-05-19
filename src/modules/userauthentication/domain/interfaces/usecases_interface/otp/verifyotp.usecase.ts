@@ -1,7 +1,7 @@
 import { UseCase } from '@main/shared/interfaces/usecase/usecase';
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
-import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError';
-import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
+import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/IncorrectOtpError';
+import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/VerifyingOtpError';
 
 export interface VerifyOtpUsecaseInterface extends
   UseCase<VerifyOtpUsecaseInterface.Request, VerifyOtpUsecaseInterface.Response> {

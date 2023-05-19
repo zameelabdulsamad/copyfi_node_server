@@ -1,7 +1,7 @@
 import { UseCase } from '@main/shared/interfaces/usecase/usecase';
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
-import { PhoneInUseError } from '@modules/userauthentication/domain/errors/register_error/PhoneInUseError';
-import { RegisterUserError } from '@modules/userauthentication/domain/errors/register_error/RegisterUserError';
+import { PhoneInUseError } from '@modules/userauthentication/domain/errors/PhoneInUseError';
+import { RegisterUserError } from '@modules/userauthentication/domain/errors/RegisterUserError';
 
 export interface RegisterUserUsecaseInterface extends
   UseCase<RegisterUserUsecaseInterface.Request, RegisterUserUsecaseInterface.Response> {

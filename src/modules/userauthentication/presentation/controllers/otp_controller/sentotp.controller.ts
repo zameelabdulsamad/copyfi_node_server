@@ -3,7 +3,7 @@ import { badRequest, ok } from '@main/shared/helpers/http_helper/http.helper';
 import { HttpRequest } from '@main/shared/interfaces/http/httprequest';
 import { HttpResponse } from '@main/shared/interfaces/http/httpresponse';
 import { Validation } from '@main/shared/interfaces/validation/validation';
-import { SendingOtpError } from '@modules/userauthentication/domain/errors/otp_error/SendingOtpError';
+import { SendingOtpError } from '@modules/userauthentication/domain/errors/SendingOtpError';
 import { SendOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/sendotp.usecase';
 
 export class SendOtpController extends BaseController {

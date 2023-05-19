@@ -1,6 +1,6 @@
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
-import { ForbiddenError } from '@modules/userauthentication/domain/errors/authenticate_error/ForbiddenError';
-import { UnauthorizedError } from '@modules/userauthentication/domain/errors/login_error/UnauthorizedError';
+import { ForbiddenError } from '@modules/userauthentication/domain/errors/ForbiddenError';
+import { UnauthorizedError } from '@modules/userauthentication/domain/errors/UnauthorizedError';
 
 export interface JwtExternalAdapterInterface {
   generateToken(

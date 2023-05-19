@@ -1,7 +1,7 @@
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
-import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError';
-import { SendingOtpError } from '@modules/userauthentication/domain/errors/otp_error/SendingOtpError';
-import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
+import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/IncorrectOtpError';
+import { SendingOtpError } from '@modules/userauthentication/domain/errors/SendingOtpError';
+import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/VerifyingOtpError';
 
 export interface TwilioExternalAdapterInterface {
   sendOtp(

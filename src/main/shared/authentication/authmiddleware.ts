@@ -1,4 +1,4 @@
-import { ForbiddenError } from '@modules/userauthentication/domain/errors/authenticate_error/ForbiddenError';
+import { ForbiddenError } from '@modules/userauthentication/domain/errors/ForbiddenError';
 import { AuthenticateUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/authenticateuser/authenticateuser.usecase';
 import { AuthTokenNotProvidedError } from '../errors/AuthTokenNotProvidedError';
 import { InvalidAuthTokenError } from '../errors/InvalidAuthTokenError';

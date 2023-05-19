@@ -2,10 +2,10 @@ import env from '@main/config/env';
 import { injectable } from 'inversify';
 import { Twilio } from 'twilio';
 import 'reflect-metadata';
-import { SendingOtpError } from '@modules/userauthentication/domain/errors/otp_error/SendingOtpError';
 import { TwilioExternalAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/externaladapter_interface/otp/twilio/twilio.externaladapter';
-import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
-import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError';
+import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/IncorrectOtpError';
+import { SendingOtpError } from '@modules/userauthentication/domain/errors/SendingOtpError';
+import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/VerifyingOtpError';
 
 @injectable()
 export class TwilioExternalAdapter implements TwilioExternalAdapterInterface {

@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterUserController = void 0;
 const basecontroller_1 = require("@main/shared/controllers/basecontroller");
 const http_helper_1 = require("@main/shared/helpers/http_helper/http.helper");
-const PhoneInUseError_1 = require("@modules/userauthentication/domain/errors/register_error/PhoneInUseError");
-const RegisterUserError_1 = require("@modules/userauthentication/domain/errors/register_error/RegisterUserError");
+const PhoneInUseError_1 = require("@modules/userauthentication/domain/errors/PhoneInUseError");
+const RegisterUserError_1 = require("@modules/userauthentication/domain/errors/RegisterUserError");
 class RegisterUserController extends basecontroller_1.BaseController {
     constructor(registerUserValidation, registerUserUsecaseInterface) {
         super(registerUserValidation);

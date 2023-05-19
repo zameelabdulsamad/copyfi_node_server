@@ -23,12 +23,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserAuthenticationRepository = void 0;
 const inversify_1 = require("inversify");
-const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError");
-const UnauthorizedError_1 = require("@modules/userauthentication/domain/errors/login_error/UnauthorizedError");
 require("reflect-metadata");
-const IncorrectOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError");
-const PhoneInUseError_1 = require("@modules/userauthentication/domain/errors/register_error/PhoneInUseError");
-const RegisterUserError_1 = require("@modules/userauthentication/domain/errors/register_error/RegisterUserError");
+const PhoneInUseError_1 = require("@modules/userauthentication/domain/errors/PhoneInUseError");
+const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/VerifyingOtpError");
+const IncorrectOtpError_1 = require("@modules/userauthentication/domain/errors/IncorrectOtpError");
+const RegisterUserError_1 = require("@modules/userauthentication/domain/errors/RegisterUserError");
+const UnauthorizedError_1 = require("@modules/userauthentication/domain/errors/UnauthorizedError");
 let UserAuthenticationRepository = class UserAuthenticationRepository {
     constructor(twilioExternalAdapterInterface, jwtExternalAdapterInterface, userAuthenticationPGDBDataHandlerInterface) {
         this.twilioExternalAdapterInterface = twilioExternalAdapterInterface;

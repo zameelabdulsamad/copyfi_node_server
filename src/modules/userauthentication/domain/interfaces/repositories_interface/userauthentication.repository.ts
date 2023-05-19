@@ -1,11 +1,13 @@
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
-import { SendingOtpError } from '@modules/userauthentication/domain/errors/otp_error/SendingOtpError';
-import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
-import { PhoneInUseError } from '@modules/userauthentication/domain/errors/register_error/PhoneInUseError';
-import { RegisterUserError } from '@modules/userauthentication/domain/errors/register_error/RegisterUserError';
-import { UnauthorizedError } from '@modules/userauthentication/domain/errors/login_error/UnauthorizedError';
-import { ForbiddenError } from '@modules/userauthentication/domain/errors/authenticate_error/ForbiddenError';
-import { IncorrectOtpError } from '../../errors/otp_error/IncorrectOtpError';
+
+import { PhoneInUseError } from '@modules/userauthentication/domain/errors/PhoneInUseError';
+
+import { ForbiddenError } from '@modules/userauthentication/domain/errors/ForbiddenError';
+import { SendingOtpError } from '../../errors/SendingOtpError';
+import { IncorrectOtpError } from '../../errors/IncorrectOtpError';
+import { RegisterUserError } from '../../errors/RegisterUserError';
+import { UnauthorizedError } from '../../errors/UnauthorizedError';
+import { VerifyingOtpError } from '../../errors/VerifyingOtpError';
 
 export interface UserAuthenticationRepositoryInterface {
   sendOtp(sendOtpData: UserAuthenticationRepositoryInterface.SendOtpRequest
