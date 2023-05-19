@@ -25,18 +25,18 @@ exports.VerifyOtpUsecase = void 0;
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 let VerifyOtpUsecase = class VerifyOtpUsecase {
-    constructor(verifyOtpRepositoryInterface) {
-        this.verifyOtpRepositoryInterface = verifyOtpRepositoryInterface;
+    constructor(userAuthenticationRepositoryInterface) {
+        this.userAuthenticationRepositoryInterface = userAuthenticationRepositoryInterface;
     }
     execute(verifyOtpData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.verifyOtpRepositoryInterface.verifyOtp(Object.assign({}, verifyOtpData));
+            return this.userAuthenticationRepositoryInterface.verifyOtp(Object.assign({}, verifyOtpData));
         });
     }
 };
 VerifyOtpUsecase = __decorate([
     (0, inversify_1.injectable)(),
-    __param(0, (0, inversify_1.inject)('VerifyOtpRepositoryInterface')),
+    __param(0, (0, inversify_1.inject)('UserAuthenticationRepositoryInterface')),
     __metadata("design:paramtypes", [Object])
 ], VerifyOtpUsecase);
 exports.VerifyOtpUsecase = VerifyOtpUsecase;

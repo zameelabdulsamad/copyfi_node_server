@@ -1,4 +1,4 @@
-import { loginUserContainer } from '@main/di/inversify.config';
+import { sl } from '@main/di/inversify.config';
 import { BaseController } from '@main/shared/controllers/basecontroller';
 import { RequiredFieldValidation } from '@main/shared/validations/RequiredFieldValidation';
 import { ValidationComposite } from '@main/shared/validations/ValidationComposite';
@@ -12,6 +12,6 @@ export const loginUserFactory = (): BaseController => {
     ],
     'body',
   );
-  const useCase = loginUserContainer.get<LoginUserUsecaseInterface>('LoginUserUsecaseInterface');
+  const useCase = sl.get<LoginUserUsecaseInterface>('LoginUserUsecaseInterface');
   return new LoginUserController(validation, useCase);
 };

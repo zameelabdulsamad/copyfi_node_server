@@ -9,7 +9,7 @@ const sendOtpFactory = () => {
     const validation = new ValidationComposite_1.ValidationComposite([
         new RequiredFieldValidation_1.RequiredFieldValidation('USER_PHONE'),
     ], 'body');
-    const useCase = inversify_config_1.sendOtpContainer.get('SendOtpUsecaseInterface');
+    const useCase = inversify_config_1.sl.get('SendOtpUsecaseInterface');
     return new sentotp_controller_1.SendOtpController(validation, useCase);
 };
 exports.sendOtpFactory = sendOtpFactory;

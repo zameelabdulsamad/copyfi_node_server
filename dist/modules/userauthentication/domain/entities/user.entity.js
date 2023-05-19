@@ -7,7 +7,6 @@ class UserEntity {
         this.USER_EMAIL = props.USER_EMAIL;
         this.USER_FULLNAME = props.USER_FULLNAME;
         this.USER_PHONE = props.USER_PHONE;
-        this.otp = props.otp;
     }
 }
 exports.UserEntity = UserEntity;

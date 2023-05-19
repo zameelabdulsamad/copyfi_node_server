@@ -25,18 +25,18 @@ exports.SendOtpUsecase = void 0;
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 let SendOtpUsecase = class SendOtpUsecase {
-    constructor(sendOtpRepositoryInterface) {
-        this.sendOtpRepositoryInterface = sendOtpRepositoryInterface;
+    constructor(userAuthenticationRepositoryInterface) {
+        this.userAuthenticationRepositoryInterface = userAuthenticationRepositoryInterface;
     }
     execute(sendOtpData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.sendOtpRepositoryInterface.sendOtp(Object.assign({}, sendOtpData));
+            return this.userAuthenticationRepositoryInterface.sendOtp(Object.assign({}, sendOtpData));
         });
     }
 };
 SendOtpUsecase = __decorate([
     (0, inversify_1.injectable)(),
-    __param(0, (0, inversify_1.inject)('SendOtpRepositoryInterface')),
+    __param(0, (0, inversify_1.inject)('UserAuthenticationRepositoryInterface')),
     __metadata("design:paramtypes", [Object])
 ], SendOtpUsecase);
 exports.SendOtpUsecase = SendOtpUsecase;

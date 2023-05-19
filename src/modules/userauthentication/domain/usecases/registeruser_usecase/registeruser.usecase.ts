@@ -1,22 +1,21 @@
 import { injectable, inject } from 'inversify';
-
 import 'reflect-metadata';
-import { RegisterUserRepositoryInterface } from '../../interfaces/repositories_interface/registeruser/registeruser.repository';
 import { RegisterUserUsecaseInterface } from '../../interfaces/usecases_interface/registeruser/registeruser.usecase';
+import { UserAuthenticationRepositoryInterface } from '../../interfaces/repositories_interface/userauthentication.repository';
 
 @injectable()
 export class RegisterUserUsecase implements RegisterUserUsecaseInterface {
-  registerUserRepositoryInterface: RegisterUserRepositoryInterface;
+  userAuthenticationRepositoryInterface: UserAuthenticationRepositoryInterface;
 
   constructor(
-  @inject('RegisterUserRepositoryInterface') registerUserRepositoryInterface: RegisterUserRepositoryInterface,
+  @inject('UserAuthenticationRepositoryInterface') userAuthenticationRepositoryInterface: UserAuthenticationRepositoryInterface,
   ) {
-    this.registerUserRepositoryInterface = registerUserRepositoryInterface;
+    this.userAuthenticationRepositoryInterface = userAuthenticationRepositoryInterface;
   }
 
   async execute(registerUserData: RegisterUserUsecaseInterface.Request):
   Promise<RegisterUserUsecaseInterface.Response> {
-    return this.registerUserRepositoryInterface.registerUser({
+    return this.userAuthenticationRepositoryInterface.registerUser({
       ...registerUserData,
     });
   }

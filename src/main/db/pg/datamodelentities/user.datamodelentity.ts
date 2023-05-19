@@ -8,17 +8,17 @@ export class UserDataModelEntity extends BaseEntity {
     USER_UID!: string;
 
   @Column({
-    nullable: true,
+    nullable: false,
   })
     USER_EMAIL!: string;
 
   @Column({
-    nullable: true,
+    nullable: false,
   })
     USER_FULLNAME!: string;
 
   @Column({
-    nullable: true,
+    nullable: false,
   })
     USER_PHONE!: string;
 }

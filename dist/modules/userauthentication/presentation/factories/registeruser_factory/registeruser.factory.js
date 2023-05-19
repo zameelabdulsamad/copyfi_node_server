@@ -11,7 +11,7 @@ const registerUserFactory = () => {
         new RequiredFieldValidation_1.RequiredFieldValidation('USER_PHONE'),
         new RequiredFieldValidation_1.RequiredFieldValidation('USER_EMAIL'),
     ], 'body');
-    const useCase = inversify_config_1.registerUserContainer.get('RegisterUserUsecaseInterface');
+    const useCase = inversify_config_1.sl.get('RegisterUserUsecaseInterface');
     return new registeruser_controller_1.RegisterUserController(validation, useCase);
 };
 exports.registerUserFactory = registerUserFactory;

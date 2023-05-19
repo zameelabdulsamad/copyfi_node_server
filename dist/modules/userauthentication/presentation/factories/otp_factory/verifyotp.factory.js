@@ -10,7 +10,7 @@ const verifyOtpFactory = () => {
         new RequiredFieldValidation_1.RequiredFieldValidation('otp'),
         new RequiredFieldValidation_1.RequiredFieldValidation('USER_PHONE'),
     ], 'body');
-    const useCase = inversify_config_1.verifyOtpContainer.get('VerifyOtpUsecaseInterface');
+    const useCase = inversify_config_1.sl.get('VerifyOtpUsecaseInterface');
     return new verifyotp_controller_1.VerifyOtpController(validation, useCase);
 };
 exports.verifyOtpFactory = verifyOtpFactory;

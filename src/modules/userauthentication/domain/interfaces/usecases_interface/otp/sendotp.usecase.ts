@@ -9,6 +9,6 @@ export interface SendOtpUsecaseInterface extends
 }
 
 export namespace SendOtpUsecaseInterface {
-  export type Request = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME' | 'otp'>;
-  export type Response = { message: string } | SendingOtpError;
+  export type Request = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'>;
+  export type Response = { status:string, message: string } | SendingOtpError;
 }

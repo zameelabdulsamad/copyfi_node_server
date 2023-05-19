@@ -25,18 +25,18 @@ exports.RegisterUserUsecase = void 0;
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 let RegisterUserUsecase = class RegisterUserUsecase {
-    constructor(registerUserRepositoryInterface) {
-        this.registerUserRepositoryInterface = registerUserRepositoryInterface;
+    constructor(userAuthenticationRepositoryInterface) {
+        this.userAuthenticationRepositoryInterface = userAuthenticationRepositoryInterface;
     }
     execute(registerUserData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.registerUserRepositoryInterface.registerUser(Object.assign({}, registerUserData));
+            return this.userAuthenticationRepositoryInterface.registerUser(Object.assign({}, registerUserData));
         });
     }
 };
 RegisterUserUsecase = __decorate([
     (0, inversify_1.injectable)(),
-    __param(0, (0, inversify_1.inject)('RegisterUserRepositoryInterface')),
+    __param(0, (0, inversify_1.inject)('UserAuthenticationRepositoryInterface')),
     __metadata("design:paramtypes", [Object])
 ], RegisterUserUsecase);
 exports.RegisterUserUsecase = RegisterUserUsecase;

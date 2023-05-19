@@ -1,4 +1,4 @@
-import { verifyOtpContainer } from '@main/di/inversify.config';
+import { sl } from '@main/di/inversify.config';
 import { BaseController } from '@main/shared/controllers/basecontroller';
 import { RequiredFieldValidation } from '@main/shared/validations/RequiredFieldValidation';
 import { ValidationComposite } from '@main/shared/validations/ValidationComposite';
@@ -14,6 +14,6 @@ export const verifyOtpFactory = (): BaseController => {
     ],
     'body',
   );
-  const useCase = verifyOtpContainer.get<VerifyOtpUsecaseInterface>('VerifyOtpUsecaseInterface');
+  const useCase = sl.get<VerifyOtpUsecaseInterface>('VerifyOtpUsecaseInterface');
   return new VerifyOtpController(validation, useCase);
 };

@@ -1,21 +1,21 @@
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
-import { LoginUserRepositoryInterface } from '../../interfaces/repositories_interface/loginuser/loginuser.repository';
 import { LoginUserUsecaseInterface } from '../../interfaces/usecases_interface/loginuser/loginuser.usecase';
+import { UserAuthenticationRepositoryInterface } from '../../interfaces/repositories_interface/userauthentication.repository';
 
 @injectable()
 export class LoginUserUsecase implements LoginUserUsecaseInterface {
-  loginUserRepositoryInterface: LoginUserRepositoryInterface;
+  userAuthenticationRepositoryInterface: UserAuthenticationRepositoryInterface;
 
   constructor(
-  @inject('LoginUserRepositoryInterface') loginUserRepositoryInterface: LoginUserRepositoryInterface,
+  @inject('UserAuthenticationRepositoryInterface') userAuthenticationRepositoryInterface: UserAuthenticationRepositoryInterface,
   ) {
-    this.loginUserRepositoryInterface = loginUserRepositoryInterface;
+    this.userAuthenticationRepositoryInterface = userAuthenticationRepositoryInterface;
   }
 
-  async execute(loginUserData: LoginUserRepositoryInterface.Request):
-  Promise<LoginUserRepositoryInterface.Response> {
-    return this.loginUserRepositoryInterface.loginUser({
+  async execute(loginUserData: LoginUserUsecaseInterface.Request):
+  Promise<LoginUserUsecaseInterface.Response> {
+    return this.userAuthenticationRepositoryInterface.loginUser({
       ...loginUserData,
     });
   }

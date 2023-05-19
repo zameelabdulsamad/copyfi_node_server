@@ -1,21 +1,21 @@
 import { injectable, inject } from 'inversify';
 import { SendOtpUsecaseInterface } from '../../interfaces/usecases_interface/otp/sendotp.usecase';
-import { SendOtpRepositoryInterface } from '../../interfaces/repositories_interface/otp/sendotp.repository';
 import 'reflect-metadata';
+import { UserAuthenticationRepositoryInterface } from '../../interfaces/repositories_interface/userauthentication.repository';
 
 @injectable()
 export class SendOtpUsecase implements SendOtpUsecaseInterface {
-  sendOtpRepositoryInterface: SendOtpRepositoryInterface;
+  userAuthenticationRepositoryInterface: UserAuthenticationRepositoryInterface;
 
   constructor(
-  @inject('SendOtpRepositoryInterface') sendOtpRepositoryInterface: SendOtpRepositoryInterface,
+  @inject('UserAuthenticationRepositoryInterface') userAuthenticationRepositoryInterface: UserAuthenticationRepositoryInterface,
   ) {
-    this.sendOtpRepositoryInterface = sendOtpRepositoryInterface;
+    this.userAuthenticationRepositoryInterface = userAuthenticationRepositoryInterface;
   }
 
   async execute(sendOtpData: SendOtpUsecaseInterface.Request):
   Promise<SendOtpUsecaseInterface.Response> {
-    return this.sendOtpRepositoryInterface.sendOtp({
+    return this.userAuthenticationRepositoryInterface.sendOtp({
       ...sendOtpData,
     });
   }

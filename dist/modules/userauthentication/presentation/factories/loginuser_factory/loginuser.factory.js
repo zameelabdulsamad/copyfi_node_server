@@ -9,7 +9,7 @@ const loginUserFactory = () => {
     const validation = new ValidationComposite_1.ValidationComposite([
         new RequiredFieldValidation_1.RequiredFieldValidation('USER_PHONE'),
     ], 'body');
-    const useCase = inversify_config_1.loginUserContainer.get('LoginUserUsecaseInterface');
+    const useCase = inversify_config_1.sl.get('LoginUserUsecaseInterface');
     return new loginuser_controller_1.LoginUserController(validation, useCase);
 };
 exports.loginUserFactory = loginUserFactory;

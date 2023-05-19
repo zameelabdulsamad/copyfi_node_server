@@ -41,7 +41,7 @@ let SendOtpTwilioAdapter = class SendOtpTwilioAdapter {
                     channel: 'sms',
                 });
                 if (verification.status === 'pending') {
-                    return { message: 'OTP Sent' };
+                    return { message: 'OTP has been sent successfully', status: 'success' };
                 }
                 return new SendingOtpError_1.SendingOtpError();
             }

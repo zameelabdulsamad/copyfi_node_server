@@ -1,4 +1,4 @@
-import { sendOtpContainer } from '@main/di/inversify.config';
+import { sl } from '@main/di/inversify.config';
 import { BaseController } from '@main/shared/controllers/basecontroller';
 import { RequiredFieldValidation } from '@main/shared/validations/RequiredFieldValidation';
 import { ValidationComposite } from '@main/shared/validations/ValidationComposite';
@@ -12,6 +12,6 @@ export const sendOtpFactory = (): BaseController => {
     ],
     'body',
   );
-  const useCase = sendOtpContainer.get<SendOtpUsecaseInterface>('SendOtpUsecaseInterface');
+  const useCase = sl.get<SendOtpUsecaseInterface>('SendOtpUsecaseInterface');
   return new SendOtpController(validation, useCase);
 };

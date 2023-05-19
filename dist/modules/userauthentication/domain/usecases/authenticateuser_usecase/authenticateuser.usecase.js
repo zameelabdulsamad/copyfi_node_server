@@ -25,18 +25,18 @@ exports.AuthenticateUserUsecase = void 0;
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 let AuthenticateUserUsecase = class AuthenticateUserUsecase {
-    constructor(authenticateUserRepositoryInterface) {
-        this.authenticateUserRepositoryInterface = authenticateUserRepositoryInterface;
+    constructor(userAuthenticationRepositoryInterface) {
+        this.userAuthenticationRepositoryInterface = userAuthenticationRepositoryInterface;
     }
     execute(authenticateUserData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.authenticateUserRepositoryInterface.authenticateUser(authenticateUserData);
+            return this.userAuthenticationRepositoryInterface.authenticateUser(authenticateUserData);
         });
     }
 };
 AuthenticateUserUsecase = __decorate([
     (0, inversify_1.injectable)(),
-    __param(0, (0, inversify_1.inject)('AuthenticateUserRepositoryInterface')),
+    __param(0, (0, inversify_1.inject)('UserAuthenticationRepositoryInterface')),
     __metadata("design:paramtypes", [Object])
 ], AuthenticateUserUsecase);
 exports.AuthenticateUserUsecase = AuthenticateUserUsecase;

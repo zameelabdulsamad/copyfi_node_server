@@ -19,19 +19,19 @@ __decorate([
 ], UserDataModelEntity.prototype, "USER_UID", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        nullable: true,
+        nullable: false,
     }),
     __metadata("design:type", String)
 ], UserDataModelEntity.prototype, "USER_EMAIL", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        nullable: true,
+        nullable: false,
     }),
     __metadata("design:type", String)
 ], UserDataModelEntity.prototype, "USER_FULLNAME", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        nullable: true,
+        nullable: false,
     }),
     __metadata("design:type", String)
 ], UserDataModelEntity.prototype, "USER_PHONE", void 0);

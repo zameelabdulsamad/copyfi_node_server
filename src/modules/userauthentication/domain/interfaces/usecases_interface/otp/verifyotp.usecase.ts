@@ -10,6 +10,6 @@ export interface VerifyOtpUsecaseInterface extends
 }
 
 export namespace VerifyOtpUsecaseInterface {
-  export type Request = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'>;
+  export type Request = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'> & { otp: string };
   export type Response = { message: string, userAlreadyRegisted: boolean } | VerifyingOtpError;
 }

@@ -1,20 +1,20 @@
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
-import { AuthenticateUserRepositoryInterface } from '../../interfaces/repositories_interface/authenticateuser/authenticateuser.repository';
 import { AuthenticateUserUsecaseInterface } from '../../interfaces/usecases_interface/authenticateuser/authenticateuser.usecase';
+import { UserAuthenticationRepositoryInterface } from '../../interfaces/repositories_interface/userauthentication.repository';
 
 @injectable()
 export class AuthenticateUserUsecase implements AuthenticateUserUsecaseInterface {
-  authenticateUserRepositoryInterface: AuthenticateUserRepositoryInterface;
+  userAuthenticationRepositoryInterface: UserAuthenticationRepositoryInterface;
 
   constructor(
-  @inject('AuthenticateUserRepositoryInterface') authenticateUserRepositoryInterface: AuthenticateUserRepositoryInterface,
+  @inject('UserAuthenticationRepositoryInterface') userAuthenticationRepositoryInterface: UserAuthenticationRepositoryInterface,
   ) {
-    this.authenticateUserRepositoryInterface = authenticateUserRepositoryInterface;
+    this.userAuthenticationRepositoryInterface = userAuthenticationRepositoryInterface;
   }
 
-  async execute(authenticateUserData: AuthenticateUserRepositoryInterface.Request):
-  Promise<AuthenticateUserRepositoryInterface.Response> {
-    return this.authenticateUserRepositoryInterface.authenticateUser(authenticateUserData);
+  async execute(authenticateUserData: AuthenticateUserUsecaseInterface.Request):
+  Promise<AuthenticateUserUsecaseInterface.Response> {
+    return this.userAuthenticationRepositoryInterface.authenticateUser(authenticateUserData);
   }
 }

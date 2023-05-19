@@ -25,18 +25,18 @@ exports.LoginUserUsecase = void 0;
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 let LoginUserUsecase = class LoginUserUsecase {
-    constructor(loginUserRepositoryInterface) {
-        this.loginUserRepositoryInterface = loginUserRepositoryInterface;
+    constructor(userAuthenticationRepositoryInterface) {
+        this.userAuthenticationRepositoryInterface = userAuthenticationRepositoryInterface;
     }
     execute(loginUserData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.loginUserRepositoryInterface.loginUser(Object.assign({}, loginUserData));
+            return this.userAuthenticationRepositoryInterface.loginUser(Object.assign({}, loginUserData));
         });
     }
 };
 LoginUserUsecase = __decorate([
     (0, inversify_1.injectable)(),
-    __param(0, (0, inversify_1.inject)('LoginUserRepositoryInterface')),
+    __param(0, (0, inversify_1.inject)('UserAuthenticationRepositoryInterface')),
     __metadata("design:paramtypes", [Object])
 ], LoginUserUsecase);
 exports.LoginUserUsecase = LoginUserUsecase;

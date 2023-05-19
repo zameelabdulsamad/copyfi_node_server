@@ -17,5 +17,13 @@ export default {
     twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
     twilioServiceSid: process.env.TWILIO_SERVICE_SID,
   },
+  s3Config: {
+    s3BucketName: process.env.S3_BUCKET_NAME,
+    s3Accesskey: process.env.S3_ACCESS_KEY,
+    s3SecretAccesskey: process.env.S3_SECRET_ACCESS_KEY,
+    s3BucketRegion: process.env.S3_BUCKET_REGION,
+    s3DefaultACL: process.env.S3_DEFAULT_FILES_ACL,
+
+  },
 
 };
