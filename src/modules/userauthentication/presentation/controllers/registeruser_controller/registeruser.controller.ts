@@ -28,7 +28,7 @@ export class RegisterUserController extends BaseController {
       || userRegisteredOrError instanceof RegisterUserError) {
       return badRequest(userRegisteredOrError);
     }
-    return ok(userRegisteredOrError);
+    return ok(userRegisteredOrError.message, userRegisteredOrError.data);
   }
 }
 

@@ -5,6 +5,7 @@ import { PhoneInUseError } from '@modules/userauthentication/domain/errors/regis
 import { RegisterUserError } from '@modules/userauthentication/domain/errors/register_error/RegisterUserError';
 import { UnauthorizedError } from '@modules/userauthentication/domain/errors/login_error/UnauthorizedError';
 import { ForbiddenError } from '@modules/userauthentication/domain/errors/authenticate_error/ForbiddenError';
+import { IncorrectOtpError } from '../../errors/otp_error/IncorrectOtpError';
 
 export interface UserAuthenticationRepositoryInterface {
   sendOtp(sendOtpData: UserAuthenticationRepositoryInterface.SendOtpRequest
@@ -27,14 +28,13 @@ export interface UserAuthenticationRepositoryInterface {
 export namespace UserAuthenticationRepositoryInterface {
   // SendOtp
   export type SendOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'>;
-  export type SendOtpResponse = { status:string, message: string } | SendingOtpError;
-  // VerifyOtp
+  export type SendOtpResponse = { message: string } | SendingOtpError;
   export type VerifyOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'> & { otp: string };
-  export type VerifyOtpResponse =
-   { message: string, userAlreadyRegisted: boolean } | VerifyingOtpError;
-  // RegisterUser
+  export type VerifyOtpResponse = { message: string, data: any } |
+  VerifyingOtpError | IncorrectOtpError;
   export type RegisterUserRequest = Omit<UserEntityInterface, 'USER_UID'>;
-  export type RegisterUserResponse = { message: string } | PhoneInUseError | RegisterUserError;
+  export type RegisterUserResponse = { message: string; data: any } |
+  PhoneInUseError | RegisterUserError;
   // LoginUser
   export type LoginUserRequest = Omit<UserEntityInterface, 'USER_UID' | 'otp' | 'USER_EMAIL' | 'USER_FULLNAME' >;
   export type LoginUserResponse = { message: string, acctok: string } | UnauthorizedError;

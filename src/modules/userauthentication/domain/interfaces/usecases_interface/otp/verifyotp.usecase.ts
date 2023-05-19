@@ -1,5 +1,6 @@
 import { UseCase } from '@main/shared/interfaces/usecase/usecase';
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
+import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError';
 import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
 
 export interface VerifyOtpUsecaseInterface extends
@@ -11,5 +12,5 @@ export interface VerifyOtpUsecaseInterface extends
 
 export namespace VerifyOtpUsecaseInterface {
   export type Request = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'> & { otp: string };
-  export type Response = { message: string, userAlreadyRegisted: boolean } | VerifyingOtpError;
+  export type Response = { message: string, data: any } | VerifyingOtpError | IncorrectOtpError;
 }

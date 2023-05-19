@@ -23,8 +23,9 @@ export namespace UserAuthenticationPGDBDataHandlerInterface {
   export type LoginUserResponse = Omit<UserEntityInterface, 'USER_PHONE' | 'otp' | 'USER_EMAIL' | 'USER_FULLNAME'> | UnauthorizedError;
 
   export type VerifyOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'otp' | 'USER_EMAIL' | 'USER_FULLNAME'>;
-  export type VerifyOtpResponse = { userAlreadyRegisted: boolean } | VerifyingOtpError;
+  export type VerifyOtpResponse = { data: any } | VerifyingOtpError;
 
   export type RegisterUserRequest = Omit<UserEntityInterface, 'USER_UID' | 'otp'>;
-  export type RegisterUserResponse = { message: string } | PhoneInUseError | RegisterUserError;
+  export type RegisterUserResponse = { message: string; data: any } | PhoneInUseError |
+  RegisterUserError;
 }

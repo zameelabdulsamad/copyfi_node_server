@@ -9,8 +9,7 @@ const sendotp_usecase_1 = require("@modules/userauthentication/domain/usecases/o
 const verifyotp_usecase_1 = require("@modules/userauthentication/domain/usecases/otp_usecase/verifyotp.usecase");
 const registeruser_usecase_1 = require("@modules/userauthentication/domain/usecases/registeruser_usecase/registeruser.usecase");
 const userauthentication_datahandler_1 = require("@modules/userauthentication/infrastructure/datasources/pgdb_datasource/datahandlers/userauthentication.datahandler");
-const sendotp_twilioadapter_1 = require("@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/sendotp.twilioadapter");
-const verifyotp_twilioadapter_1 = require("@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/verifyotp.twilioadapter");
+const twilio_externaladapter_1 = require("@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/twilio.externaladapter");
 const jwt_externaladapter_1 = require("@modules/userauthentication/infrastructure/externaladapters/token_externaladapter/jwt/jwt.externaladapter");
 const userauthentication_repository_1 = require("@modules/userauthentication/infrastructure/repositories/userauthentication.repository");
 const inversify_1 = require("inversify");
@@ -27,8 +26,7 @@ exports.sl.bind('UserAuthenticationRepositoryInterface').to(userauthentication_r
 //  DataSource
 exports.sl.bind('UserAuthenticationPGDBDataHandlerInterface').to(userauthentication_datahandler_1.UserAuthenticationPGDBDataHandler);
 //  ExternalAdapters
-exports.sl.bind('SendOtpTwilioAdapterInterface').to(sendotp_twilioadapter_1.SendOtpTwilioAdapter);
-exports.sl.bind('VerifyOtpTwilioAdapterInterface').to(verifyotp_twilioadapter_1.VerifyOtpTwilioAdapter);
+exports.sl.bind('TwilioExternalAdapterInterface').to(twilio_externaladapter_1.TwilioExternalAdapter);
 exports.sl.bind('JwtExternalAdapterInterface').to(jwt_externaladapter_1.JwtExternalAdapter);
 //  MAIN
 exports.sl.bind('DataSource').toConstantValue(ormconfig_1.appDataSource);

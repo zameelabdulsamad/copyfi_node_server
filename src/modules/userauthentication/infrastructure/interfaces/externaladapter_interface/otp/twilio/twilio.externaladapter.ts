@@ -1,4 +1,5 @@
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
+import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError';
 import { SendingOtpError } from '@modules/userauthentication/domain/errors/otp_error/SendingOtpError';
 import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
 
@@ -14,8 +15,7 @@ export interface TwilioExternalAdapterInterface {
 
 export namespace TwilioExternalAdapterInterface {
   export type SendOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'>;
-  export type SendOtpResponse = { status:string, message: string } | SendingOtpError;
-
+  export type SendOtpResponse = { message: string } | SendingOtpError;
   export type VerifyOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'> & { otp: string };
-  export type VerifyOtpResponse = { message: string } | VerifyingOtpError;
+  export type VerifyOtpResponse = { message: string } | VerifyingOtpError | IncorrectOtpError;
 }

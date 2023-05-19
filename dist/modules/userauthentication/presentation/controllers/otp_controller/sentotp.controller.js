@@ -26,7 +26,7 @@ class SendOtpController extends basecontroller_1.BaseController {
             if (otpSentOrError instanceof SendingOtpError_1.SendingOtpError) {
                 return (0, http_helper_1.badRequest)(otpSentOrError);
             }
-            return (0, http_helper_1.ok)(otpSentOrError);
+            return (0, http_helper_1.ok)(otpSentOrError.message);
         });
     }
 }

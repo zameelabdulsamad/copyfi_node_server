@@ -12,5 +12,5 @@ export interface RegisterUserUsecaseInterface extends
 
 export namespace RegisterUserUsecaseInterface {
   export type Request = Omit<UserEntityInterface, 'USER_UID' | 'otp'>;
-  export type Response = { message: string } | PhoneInUseError | RegisterUserError;
+  export type Response = { message: string; data: any } | PhoneInUseError | RegisterUserError;
 }

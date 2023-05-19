@@ -26,33 +26,35 @@ const inversify_1 = require("inversify");
 const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError");
 const UnauthorizedError_1 = require("@modules/userauthentication/domain/errors/login_error/UnauthorizedError");
 require("reflect-metadata");
+const IncorrectOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError");
 let UserAuthenticationRepository = class UserAuthenticationRepository {
-    constructor(verifyOtpTwilioAdapterInterface, sendOtpTwilioAdapterInterface, jwtExternalAdapterInterface, userAuthenticationPGDBDataHandlerInterface) {
-        this.sendOtpTwilioAdapterInterface = sendOtpTwilioAdapterInterface;
-        this.verifyOtpTwilioAdapterInterface = verifyOtpTwilioAdapterInterface;
+    constructor(twilioExternalAdapterInterface, jwtExternalAdapterInterface, userAuthenticationPGDBDataHandlerInterface) {
+        this.twilioExternalAdapterInterface = twilioExternalAdapterInterface;
         this.jwtExternalAdapterInterface = jwtExternalAdapterInterface;
         this.userAuthenticationPGDBDataHandlerInterface = userAuthenticationPGDBDataHandlerInterface;
     }
     sendOtp(sendOtpData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.sendOtpTwilioAdapterInterface.sendOtp(sendOtpData);
+            return this.twilioExternalAdapterInterface.sendOtp(sendOtpData);
         });
     }
     verifyOtp(verifyOtpData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [verifyOtpResult, checkUserExistResult] = yield Promise.all([
-                this.verifyOtpTwilioAdapterInterface.verifyOtp(verifyOtpData),
-                this.userAuthenticationPGDBDataHandlerInterface.checkUserExist(verifyOtpData),
-            ]);
+            const verifyOtpResult = yield this.twilioExternalAdapterInterface.verifyOtp(verifyOtpData);
+            if (verifyOtpResult instanceof IncorrectOtpError_1.IncorrectOtpError) {
+                return verifyOtpResult;
+            }
             if (verifyOtpResult instanceof VerifyingOtpError_1.VerifyingOtpError) {
                 return verifyOtpResult;
             }
+            const checkUserExistResult = yield this.userAuthenticationPGDBDataHandlerInterface
+                .checkUserExist(verifyOtpData);
             if (checkUserExistResult instanceof VerifyingOtpError_1.VerifyingOtpError) {
                 return checkUserExistResult;
             }
             return {
                 message: verifyOtpResult.message,
-                userAlreadyRegisted: checkUserExistResult.userAlreadyRegisted,
+                data: checkUserExistResult.data,
             };
         });
     }
@@ -86,11 +88,10 @@ let UserAuthenticationRepository = class UserAuthenticationRepository {
 };
 UserAuthenticationRepository = __decorate([
     (0, inversify_1.injectable)(),
-    __param(0, (0, inversify_1.inject)('VerifyOtpTwilioAdapterInterface')),
-    __param(1, (0, inversify_1.inject)('SendOtpTwilioAdapterInterface')),
-    __param(2, (0, inversify_1.inject)('JwtExternalAdapterInterface')),
-    __param(3, (0, inversify_1.inject)('UserAuthenticationPGDBDataHandlerInterface')),
-    __metadata("design:paramtypes", [Object, Object, Object, Object])
+    __param(0, (0, inversify_1.inject)('TwilioExternalAdapterInterface')),
+    __param(1, (0, inversify_1.inject)('JwtExternalAdapterInterface')),
+    __param(2, (0, inversify_1.inject)('UserAuthenticationPGDBDataHandlerInterface')),
+    __metadata("design:paramtypes", [Object, Object, Object])
 ], UserAuthenticationRepository);
 exports.UserAuthenticationRepository = UserAuthenticationRepository;
 //# sourceMappingURL=userauthentication.repository.js.map

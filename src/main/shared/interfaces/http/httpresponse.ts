@@ -1,4 +1,8 @@
 export type HttpResponse<T = any> = {
   statusCode: number;
-  body?: T;
+  body?: {
+    status: string;
+    message: string;
+    data?: T;
+  };
 };

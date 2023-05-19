@@ -4,6 +4,7 @@ import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp
 import { UnauthorizedError } from '@modules/userauthentication/domain/errors/login_error/UnauthorizedError';
 
 import 'reflect-metadata';
+import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError';
 import { UserAuthenticationPGDBDataHandlerInterface } from '../interfaces/datasource_interface/pgdb/datahandlers/userauthentication.datahandler';
 import { JwtExternalAdapterInterface } from '../interfaces/externaladapter_interface/token/jwt/jwt.externaladapter';
 import { TwilioExternalAdapterInterface } from '../interfaces/externaladapter_interface/otp/twilio/twilio.externaladapter';
@@ -33,14 +34,18 @@ export class UserAuthenticationRepository implements UserAuthenticationRepositor
 
   async verifyOtp(verifyOtpData: UserAuthenticationRepositoryInterface.VerifyOtpRequest):
   Promise<UserAuthenticationRepositoryInterface.VerifyOtpResponse> {
-    const [verifyOtpResult, checkUserExistResult] = await Promise.all([
-      this.twilioExternalAdapterInterface.verifyOtp(verifyOtpData),
-      this.userAuthenticationPGDBDataHandlerInterface.checkUserExist(verifyOtpData),
-    ]);
+    const verifyOtpResult = await this.twilioExternalAdapterInterface.verifyOtp(verifyOtpData);
+
+    if (verifyOtpResult instanceof IncorrectOtpError) {
+      return verifyOtpResult;
+    }
 
     if (verifyOtpResult instanceof VerifyingOtpError) {
       return verifyOtpResult;
     }
+
+    const checkUserExistResult = await this.userAuthenticationPGDBDataHandlerInterface
+      .checkUserExist(verifyOtpData);
 
     if (checkUserExistResult instanceof VerifyingOtpError) {
       return checkUserExistResult;
@@ -48,7 +53,7 @@ export class UserAuthenticationRepository implements UserAuthenticationRepositor
 
     return {
       message: verifyOtpResult.message,
-      userAlreadyRegisted: checkUserExistResult.userAlreadyRegisted,
+      data: checkUserExistResult.data,
     };
   }
 

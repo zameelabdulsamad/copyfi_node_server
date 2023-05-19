@@ -5,6 +5,7 @@ import 'reflect-metadata';
 import { SendingOtpError } from '@modules/userauthentication/domain/errors/otp_error/SendingOtpError';
 import { TwilioExternalAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/externaladapter_interface/otp/twilio/twilio.externaladapter';
 import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
+import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError';
 
 @injectable()
 export class TwilioExternalAdapter implements TwilioExternalAdapterInterface {
@@ -26,10 +27,11 @@ export class TwilioExternalAdapter implements TwilioExternalAdapterInterface {
         channel: 'sms',
       });
       if (verification.status === 'pending') {
-        return { message: 'OTP has been sent successfully', status: 'success' };
+        return { message: 'OTP has been sent successfully' };
       }
       return new SendingOtpError();
     } catch (error) {
+      console.log(error);
       return new SendingOtpError();
     }
   }
@@ -46,9 +48,9 @@ export class TwilioExternalAdapter implements TwilioExternalAdapterInterface {
         code: `${verifyOtpData.otp}`,
       });
       if (verifiedResponse.status === 'approved') {
-        return { message: 'OTP Verified' };
+        return { message: 'OTP successfully verified' };
       }
-      return { message: 'Incorrect OTP' };
+      return new IncorrectOtpError();
     } catch (error) {
       return new VerifyingOtpError();
     }

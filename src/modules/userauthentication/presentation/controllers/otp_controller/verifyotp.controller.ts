@@ -3,6 +3,7 @@ import { badRequest, ok } from '@main/shared/helpers/http_helper/http.helper';
 import { HttpRequest } from '@main/shared/interfaces/http/httprequest';
 import { HttpResponse } from '@main/shared/interfaces/http/httpresponse';
 import { Validation } from '@main/shared/interfaces/validation/validation';
+import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError';
 import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/otp_error/VerifyingOtpError';
 import { VerifyOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/verifyotp.usecase';
 
@@ -22,7 +23,11 @@ export class VerifyOtpController extends BaseController {
     if (otpVerifiedOrError instanceof VerifyingOtpError) {
       return badRequest(otpVerifiedOrError);
     }
-    return ok(otpVerifiedOrError);
+
+    if (otpVerifiedOrError instanceof IncorrectOtpError) {
+      return badRequest(otpVerifiedOrError);
+    }
+    return ok(otpVerifiedOrError.message, otpVerifiedOrError.data);
   }
 }
 

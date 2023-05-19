@@ -22,7 +22,7 @@ export class SendOtpController extends BaseController {
     if (otpSentOrError instanceof SendingOtpError) {
       return badRequest(otpSentOrError);
     }
-    return ok(otpSentOrError);
+    return ok(otpSentOrError.message);
   }
 }
 

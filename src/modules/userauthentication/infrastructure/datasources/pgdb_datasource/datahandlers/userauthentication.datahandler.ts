@@ -27,9 +27,9 @@ UserAuthenticationPGDBDataHandlerInterface {
         .where('USERS.USER_PHONE = :USER_PHONE', { USER_PHONE: verifyOtpData.USER_PHONE })
         .getCount()) > 0;
       if (isPhoneNumberAlreadyRegistered) {
-        return { userAlreadyRegisted: true };
+        return { data: { userAlreadyRegisted: true } };
       }
-      return { userAlreadyRegisted: false };
+      return { data: { userAlreadyRegisted: false } };
     } catch (error) {
       return new VerifyingOtpError();
     }
@@ -46,13 +46,12 @@ UserAuthenticationPGDBDataHandlerInterface {
       if (isPhoneNumberAlreadyRegistered) {
         return new PhoneInUseError();
       }
-      await this.userDataModelEntity.createQueryBuilder('USERS')
-        .insert().values({
-          USER_EMAIL: registerUserData.USER_EMAIL,
-          USER_PHONE: registerUserData.USER_PHONE,
-          USER_FULLNAME: registerUserData.USER_FULLNAME,
-        }).execute();
-      return { message: 'User Registered' };
+      const newUser = await this.userDataModelEntity.save({
+        USER_EMAIL: registerUserData.USER_EMAIL,
+        USER_PHONE: registerUserData.USER_PHONE,
+        USER_FULLNAME: registerUserData.USER_FULLNAME,
+      });
+      return { message: 'User registration successful', data: newUser };
     } catch (error) {
       return new RegisterUserError();
     }

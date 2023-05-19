@@ -32,7 +32,7 @@ class RegisterUserController extends basecontroller_1.BaseController {
                 || userRegisteredOrError instanceof RegisterUserError_1.RegisterUserError) {
                 return (0, http_helper_1.badRequest)(userRegisteredOrError);
             }
-            return (0, http_helper_1.ok)(userRegisteredOrError);
+            return (0, http_helper_1.ok)(userRegisteredOrError.message, userRegisteredOrError.data);
         });
     }
 }
