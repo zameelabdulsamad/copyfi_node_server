@@ -14,7 +14,7 @@ export interface JwtExternalAdapterInterface {
 
 export namespace JwtExternalAdapterInterface {
   export type GenerateTokenRequest = Omit<UserEntityInterface, 'USER_PHONE' | 'otp' | 'USER_EMAIL' | 'USER_FULLNAME' >;
-  export type GenerateTokenResponse = { acctok: string } | UnauthorizedError;
+  export type GenerateTokenResponse = string | UnauthorizedError;
 
   export type VerifyTokenRequest = string;
   export type VerifyTokenResponse = string | ForbiddenError;

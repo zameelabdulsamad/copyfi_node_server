@@ -26,6 +26,6 @@ export namespace UserAuthenticationPGDBDataHandlerInterface {
   export type VerifyOtpResponse = { data: any } | VerifyingOtpError;
 
   export type RegisterUserRequest = Omit<UserEntityInterface, 'USER_UID' | 'otp'>;
-  export type RegisterUserResponse = { message: string; data: any } | PhoneInUseError |
+  export type RegisterUserResponse = { data: any } | PhoneInUseError |
   RegisterUserError;
 }

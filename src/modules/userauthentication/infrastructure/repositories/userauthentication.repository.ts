@@ -5,6 +5,8 @@ import { UnauthorizedError } from '@modules/userauthentication/domain/errors/log
 
 import 'reflect-metadata';
 import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError';
+import { PhoneInUseError } from '@modules/userauthentication/domain/errors/register_error/PhoneInUseError';
+import { RegisterUserError } from '@modules/userauthentication/domain/errors/register_error/RegisterUserError';
 import { UserAuthenticationPGDBDataHandlerInterface } from '../interfaces/datasource_interface/pgdb/datahandlers/userauthentication.datahandler';
 import { JwtExternalAdapterInterface } from '../interfaces/externaladapter_interface/token/jwt/jwt.externaladapter';
 import { TwilioExternalAdapterInterface } from '../interfaces/externaladapter_interface/otp/twilio/twilio.externaladapter';
@@ -51,6 +53,29 @@ export class UserAuthenticationRepository implements UserAuthenticationRepositor
       return checkUserExistResult;
     }
 
+    if (checkUserExistResult.data.userAlreadyRegisted === true) {
+      const getUserUIDResult = await this.userAuthenticationPGDBDataHandlerInterface
+        .getUserUID(verifyOtpData);
+
+      if (getUserUIDResult instanceof UnauthorizedError) {
+        return getUserUIDResult;
+      }
+      const generateTokenResult = await this.jwtExternalAdapterInterface.generateToken(
+        getUserUIDResult,
+      );
+
+      if (generateTokenResult instanceof UnauthorizedError) {
+        return generateTokenResult;
+      }
+
+      const newcheckUserExistResult = { ...checkUserExistResult.data, TOKEN: generateTokenResult };
+
+      return {
+        message: verifyOtpResult.message,
+        data: newcheckUserExistResult,
+      };
+    }
+
     return {
       message: verifyOtpResult.message,
       data: checkUserExistResult.data,
@@ -59,29 +84,24 @@ export class UserAuthenticationRepository implements UserAuthenticationRepositor
 
   async registerUser(registerUserData: UserAuthenticationRepositoryInterface.RegisterUserRequest):
   Promise<UserAuthenticationRepositoryInterface.RegisterUserResponse> {
-    return this.userAuthenticationPGDBDataHandlerInterface.registerUser(registerUserData);
-  }
+    const newUserData = await this.userAuthenticationPGDBDataHandlerInterface
+      .registerUser(registerUserData);
 
-  async loginUser(loginUserData: UserAuthenticationRepositoryInterface.LoginUserRequest):
-  Promise<UserAuthenticationRepositoryInterface.LoginUserResponse> {
-    const getUserUIDResult = await this.userAuthenticationPGDBDataHandlerInterface
-      .getUserUID(loginUserData);
-
-    if (getUserUIDResult instanceof UnauthorizedError) {
-      return getUserUIDResult;
+    if (newUserData instanceof PhoneInUseError || newUserData instanceof RegisterUserError) {
+      return newUserData;
     }
+
     const generateTokenResult = await this.jwtExternalAdapterInterface.generateToken(
-      getUserUIDResult,
+      newUserData.data,
     );
 
     if (generateTokenResult instanceof UnauthorizedError) {
       return generateTokenResult;
     }
 
-    return {
-      message: 'User logged in',
-      acctok: generateTokenResult.acctok,
-    };
+    const newUserDataWithToken = { ...newUserData.data, TOKEN: generateTokenResult };
+
+    return { message: 'User registration successful', data: newUserDataWithToken };
   }
 
   async authenticateUser(authenticateUserData: string):

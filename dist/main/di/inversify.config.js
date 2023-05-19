@@ -4,7 +4,6 @@ exports.sl = void 0;
 const user_datamodelentity_1 = require("@main/db/pg/datamodelentities/user.datamodelentity");
 const ormconfig_1 = require("@main/db/pg/setup/ormconfig");
 const authenticateuser_usecase_1 = require("@modules/userauthentication/domain/usecases/authenticateuser_usecase/authenticateuser.usecase");
-const loginuser_usecase_1 = require("@modules/userauthentication/domain/usecases/loginuser_usecase/loginuser.usecase");
 const sendotp_usecase_1 = require("@modules/userauthentication/domain/usecases/otp_usecase/sendotp.usecase");
 const verifyotp_usecase_1 = require("@modules/userauthentication/domain/usecases/otp_usecase/verifyotp.usecase");
 const registeruser_usecase_1 = require("@modules/userauthentication/domain/usecases/registeruser_usecase/registeruser.usecase");
@@ -19,7 +18,6 @@ exports.sl = new inversify_1.Container();
 exports.sl.bind('SendOtpUsecaseInterface').to(sendotp_usecase_1.SendOtpUsecase);
 exports.sl.bind('VerifyOtpUsecaseInterface').to(verifyotp_usecase_1.VerifyOtpUsecase);
 exports.sl.bind('RegisterUserUsecaseInterface').to(registeruser_usecase_1.RegisterUserUsecase);
-exports.sl.bind('LoginUserUsecaseInterface').to(loginuser_usecase_1.LoginUserUsecase);
 exports.sl.bind('AuthenticateUserUsecaseInterface').to(authenticateuser_usecase_1.AuthenticateUserUsecase);
 //  Repository
 exports.sl.bind('UserAuthenticationRepositoryInterface').to(userauthentication_repository_1.UserAuthenticationRepository);

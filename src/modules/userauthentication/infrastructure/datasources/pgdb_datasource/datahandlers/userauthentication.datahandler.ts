@@ -51,7 +51,7 @@ UserAuthenticationPGDBDataHandlerInterface {
         USER_PHONE: registerUserData.USER_PHONE,
         USER_FULLNAME: registerUserData.USER_FULLNAME,
       });
-      return { message: 'User registration successful', data: newUser };
+      return { data: newUser };
     } catch (error) {
       return new RegisterUserError();
     }

@@ -13,7 +13,7 @@ export class JwtExternalAdapter implements JwtExternalAdapterInterface {
     generateTokenData: JwtExternalAdapterInterface.GenerateTokenRequest,
   ): Promise<JwtExternalAdapterInterface.GenerateTokenResponse> {
     const token = jwt.sign({ uid: generateTokenData.USER_UID }, this.key);
-    return { acctok: `${token}` };
+    return token;
   }
 
   async verifyToken(

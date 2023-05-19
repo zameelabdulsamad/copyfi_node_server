@@ -27,6 +27,8 @@ const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/o
 const UnauthorizedError_1 = require("@modules/userauthentication/domain/errors/login_error/UnauthorizedError");
 require("reflect-metadata");
 const IncorrectOtpError_1 = require("@modules/userauthentication/domain/errors/otp_error/IncorrectOtpError");
+const PhoneInUseError_1 = require("@modules/userauthentication/domain/errors/register_error/PhoneInUseError");
+const RegisterUserError_1 = require("@modules/userauthentication/domain/errors/register_error/RegisterUserError");
 let UserAuthenticationRepository = class UserAuthenticationRepository {
     constructor(twilioExternalAdapterInterface, jwtExternalAdapterInterface, userAuthenticationPGDBDataHandlerInterface) {
         this.twilioExternalAdapterInterface = twilioExternalAdapterInterface;
@@ -52,6 +54,22 @@ let UserAuthenticationRepository = class UserAuthenticationRepository {
             if (checkUserExistResult instanceof VerifyingOtpError_1.VerifyingOtpError) {
                 return checkUserExistResult;
             }
+            if (checkUserExistResult.data.userAlreadyRegisted === true) {
+                const getUserUIDResult = yield this.userAuthenticationPGDBDataHandlerInterface
+                    .getUserUID(verifyOtpData);
+                if (getUserUIDResult instanceof UnauthorizedError_1.UnauthorizedError) {
+                    return getUserUIDResult;
+                }
+                const generateTokenResult = yield this.jwtExternalAdapterInterface.generateToken(getUserUIDResult);
+                if (generateTokenResult instanceof UnauthorizedError_1.UnauthorizedError) {
+                    return generateTokenResult;
+                }
+                const newcheckUserExistResult = Object.assign(Object.assign({}, checkUserExistResult.data), { TOKEN: generateTokenResult });
+                return {
+                    message: verifyOtpResult.message,
+                    data: newcheckUserExistResult,
+                };
+            }
             return {
                 message: verifyOtpResult.message,
                 data: checkUserExistResult.data,
@@ -60,24 +78,17 @@ let UserAuthenticationRepository = class UserAuthenticationRepository {
     }
     registerUser(registerUserData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.userAuthenticationPGDBDataHandlerInterface.registerUser(registerUserData);
-        });
-    }
-    loginUser(loginUserData) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const getUserUIDResult = yield this.userAuthenticationPGDBDataHandlerInterface
-                .getUserUID(loginUserData);
-            if (getUserUIDResult instanceof UnauthorizedError_1.UnauthorizedError) {
-                return getUserUIDResult;
+            const newUserData = yield this.userAuthenticationPGDBDataHandlerInterface
+                .registerUser(registerUserData);
+            if (newUserData instanceof PhoneInUseError_1.PhoneInUseError || newUserData instanceof RegisterUserError_1.RegisterUserError) {
+                return newUserData;
             }
-            const generateTokenResult = yield this.jwtExternalAdapterInterface.generateToken(getUserUIDResult);
+            const generateTokenResult = yield this.jwtExternalAdapterInterface.generateToken(newUserData.data);
             if (generateTokenResult instanceof UnauthorizedError_1.UnauthorizedError) {
                 return generateTokenResult;
             }
-            return {
-                message: 'User logged in',
-                acctok: generateTokenResult.acctok,
-            };
+            const newUserDataWithToken = Object.assign(Object.assign({}, newUserData.data), { TOKEN: generateTokenResult });
+            return { message: 'User registration successful', data: newUserDataWithToken };
         });
     }
     authenticateUser(authenticateUserData) {

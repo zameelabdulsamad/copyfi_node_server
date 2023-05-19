@@ -31,7 +31,6 @@ export class TwilioExternalAdapter implements TwilioExternalAdapterInterface {
       }
       return new SendingOtpError();
     } catch (error) {
-      console.log(error);
       return new SendingOtpError();
     }
   }

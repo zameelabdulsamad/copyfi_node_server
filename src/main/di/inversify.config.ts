@@ -2,12 +2,10 @@ import { UserDataModelEntity } from '@main/db/pg/datamodelentities/user.datamode
 import { appDataSource } from '@main/db/pg/setup/ormconfig';
 import { UserAuthenticationRepositoryInterface } from '@modules/userauthentication/domain/interfaces/repositories_interface/userauthentication.repository';
 import { AuthenticateUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/authenticateuser/authenticateuser.usecase';
-import { LoginUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/loginuser/loginuser.usecase';
 import { SendOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/sendotp.usecase';
 import { VerifyOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/verifyotp.usecase';
 import { RegisterUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/registeruser/registeruser.usecase';
 import { AuthenticateUserUsecase } from '@modules/userauthentication/domain/usecases/authenticateuser_usecase/authenticateuser.usecase';
-import { LoginUserUsecase } from '@modules/userauthentication/domain/usecases/loginuser_usecase/loginuser.usecase';
 import { SendOtpUsecase } from '@modules/userauthentication/domain/usecases/otp_usecase/sendotp.usecase';
 import { VerifyOtpUsecase } from '@modules/userauthentication/domain/usecases/otp_usecase/verifyotp.usecase';
 import { RegisterUserUsecase } from '@modules/userauthentication/domain/usecases/registeruser_usecase/registeruser.usecase';
@@ -30,7 +28,6 @@ export const sl = new Container();
 sl.bind<SendOtpUsecaseInterface>('SendOtpUsecaseInterface').to(SendOtpUsecase);
 sl.bind<VerifyOtpUsecaseInterface>('VerifyOtpUsecaseInterface').to(VerifyOtpUsecase);
 sl.bind<RegisterUserUsecaseInterface>('RegisterUserUsecaseInterface').to(RegisterUserUsecase);
-sl.bind<LoginUserUsecaseInterface>('LoginUserUsecaseInterface').to(LoginUserUsecase);
 sl.bind<AuthenticateUserUsecaseInterface>('AuthenticateUserUsecaseInterface').to(AuthenticateUserUsecase);
 
 //  Repository

@@ -17,9 +17,6 @@ export interface UserAuthenticationRepositoryInterface {
   registerUser(registerUserData: UserAuthenticationRepositoryInterface.RegisterUserRequest
   ): Promise<UserAuthenticationRepositoryInterface.RegisterUserResponse>;
 
-  loginUser(loginUserData: UserAuthenticationRepositoryInterface.LoginUserRequest
-  ): Promise<UserAuthenticationRepositoryInterface.LoginUserResponse>;
-
   authenticateUser(
     authenticateUserData: UserAuthenticationRepositoryInterface.AuthenticateUserRequest
   ): Promise<UserAuthenticationRepositoryInterface.AuthenticateUserResponse>;
@@ -29,15 +26,15 @@ export namespace UserAuthenticationRepositoryInterface {
   // SendOtp
   export type SendOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'>;
   export type SendOtpResponse = { message: string } | SendingOtpError;
+
   export type VerifyOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'> & { otp: string };
   export type VerifyOtpResponse = { message: string, data: any } |
-  VerifyingOtpError | IncorrectOtpError;
+  VerifyingOtpError | IncorrectOtpError | UnauthorizedError;
+
   export type RegisterUserRequest = Omit<UserEntityInterface, 'USER_UID'>;
   export type RegisterUserResponse = { message: string; data: any } |
-  PhoneInUseError | RegisterUserError;
-  // LoginUser
-  export type LoginUserRequest = Omit<UserEntityInterface, 'USER_UID' | 'otp' | 'USER_EMAIL' | 'USER_FULLNAME' >;
-  export type LoginUserResponse = { message: string, acctok: string } | UnauthorizedError;
+  PhoneInUseError | RegisterUserError | UnauthorizedError;
+
   // AuthenticateUser
   export type AuthenticateUserRequest = string;
   export type AuthenticateUserResponse = string | ForbiddenError;
