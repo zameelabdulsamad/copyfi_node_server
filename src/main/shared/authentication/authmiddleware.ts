@@ -24,7 +24,7 @@ export class AuthMiddleware extends BaseMiddleware {
     if (userDataOrError instanceof ForbiddenError) {
       return forbidden(new InvalidAuthTokenError());
     }
-    return ok({ userData: userDataOrError });
+    return ok(userDataOrError);
   }
 }
 

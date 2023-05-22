@@ -24,7 +24,8 @@ const expressMiddlewareAdapter = (middleware) => (req, res, next) => __awaiter(v
     }
     else {
         res.status(httpResponse.statusCode).json({
-            error: (_a = httpResponse.body) === null || _a === void 0 ? void 0 : _a.message,
+            status: 'error',
+            message: (_a = httpResponse.body) === null || _a === void 0 ? void 0 : _a.message,
         });
     }
 });

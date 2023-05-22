@@ -48,6 +48,7 @@ let TwilioExternalAdapter = class TwilioExternalAdapter {
                 return new SendingOtpError_1.SendingOtpError();
             }
             catch (error) {
+                console.log(error);
                 return new SendingOtpError_1.SendingOtpError();
             }
         });

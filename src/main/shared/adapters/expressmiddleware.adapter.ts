@@ -16,7 +16,8 @@ export const expressMiddlewareAdapter = (
     next();
   } else {
     res.status(httpResponse.statusCode).json({
-      error: httpResponse.body?.message,
+      status: 'error',
+      message: httpResponse.body?.message,
     });
   }
 };
