@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserDataModelEntity = void 0;
 const typeorm_1 = require("typeorm");
+const printjob_datamodelentity_1 = require("./printjob.datamodelentity");
 let UserDataModelEntity = class UserDataModelEntity extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -35,6 +36,10 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], UserDataModelEntity.prototype, "USER_PHONE", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => printjob_datamodelentity_1.PrintJobDataModelEntity, (USER_PRINTJOB) => USER_PRINTJOB.PRINTJOB_USER),
+    __metadata("design:type", Array)
+], UserDataModelEntity.prototype, "USER_PRINTJOB", void 0);
 UserDataModelEntity = __decorate([
     (0, typeorm_1.Entity)('USERS')
 ], UserDataModelEntity);

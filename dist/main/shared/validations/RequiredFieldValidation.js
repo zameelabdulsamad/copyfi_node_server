@@ -7,10 +7,15 @@ class RequiredFieldValidation {
         this.fieldName = fieldName;
     }
     validate(input) {
-        if (!input[this.fieldName]) {
-            return new MissingParamError_1.MissingParamError(this.fieldName);
+        if (Array.isArray(input)) {
+            if (input.some((file) => file.fieldname === this.fieldName)) {
+                return null;
+            }
         }
-        return null;
+        else if (input && input[this.fieldName]) {
+            return null;
+        }
+        return new MissingParamError_1.MissingParamError(this.fieldName);
     }
 }
 exports.RequiredFieldValidation = RequiredFieldValidation;

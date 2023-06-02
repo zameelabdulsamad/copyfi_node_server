@@ -7,9 +7,13 @@ export class RequiredFieldValidation implements Validation {
   ) {}
 
   validate(input: any): Error | null {
-    if (!input[this.fieldName]) {
-      return new MissingParamError(this.fieldName);
+    if (Array.isArray(input)) {
+      if (input.some((file) => file.fieldname === this.fieldName)) {
+        return null;
+      }
+    } else if (input && input[this.fieldName]) {
+      return null;
     }
-    return null;
+    return new MissingParamError(this.fieldName);
   }
 }

@@ -11,21 +11,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.expressMiddlewareAdapter = void 0;
 const expressMiddlewareAdapter = (middleware) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     const httpRequest = {
         body: req.body,
         params: req.params,
         headers: req.headers,
+        userUid: req.userUid,
+        files: req.files,
     };
     const httpResponse = yield middleware.handle(httpRequest);
     if (httpResponse.statusCode === 200) {
-        Object.assign(req, httpResponse.body);
+        Object.assign(req, (_a = httpResponse.body) === null || _a === void 0 ? void 0 : _a.message);
         next();
     }
     else {
         res.status(httpResponse.statusCode).json({
             status: 'error',
-            message: (_a = httpResponse.body) === null || _a === void 0 ? void 0 : _a.message,
+            message: (_b = httpResponse.body) === null || _b === void 0 ? void 0 : _b.message,
         });
     }
 });

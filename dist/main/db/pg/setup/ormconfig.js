@@ -8,6 +8,7 @@ const env_1 = __importDefault(require("@main/config/env"));
 const path_1 = require("path");
 const typeorm_1 = require("typeorm");
 const user_datamodelentity_1 = require("../datamodelentities/user.datamodelentity");
+const printjob_datamodelentity_1 = require("../datamodelentities/printjob.datamodelentity");
 exports.appDataSource = new typeorm_1.DataSource({
     type: 'postgres',
     username: env_1.default.postgresConfig.postgresDbUser,
@@ -15,7 +16,7 @@ exports.appDataSource = new typeorm_1.DataSource({
     database: env_1.default.postgresConfig.postgresDb,
     password: env_1.default.postgresConfig.postgresDbPassword,
     port: 5432,
-    entities: [user_datamodelentity_1.UserDataModelEntity],
+    entities: [user_datamodelentity_1.UserDataModelEntity, printjob_datamodelentity_1.PrintJobDataModelEntity],
     synchronize: true,
     dropSchema: false,
     migrationsRun: true,

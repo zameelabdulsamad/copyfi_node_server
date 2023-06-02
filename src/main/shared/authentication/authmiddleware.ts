@@ -24,12 +24,12 @@ export class AuthMiddleware extends BaseMiddleware {
     if (userDataOrError instanceof ForbiddenError) {
       return forbidden(new InvalidAuthTokenError());
     }
-    return ok(userDataOrError);
+    return ok({ userUid: userDataOrError });
   }
 }
 
 export namespace AuthMiddleware {
   export type Request = HttpRequest<undefined, undefined, { authorization: string }>;
   export type Response =
-    HttpResponse<{ userData: string } | AuthTokenNotProvidedError | InvalidAuthTokenError>;
+    HttpResponse<{ userUid: string } | AuthTokenNotProvidedError | InvalidAuthTokenError>;
 }

@@ -12,7 +12,11 @@ export class JwtExternalAdapter implements JwtExternalAdapterInterface {
   async generateToken(
     generateTokenData: JwtExternalAdapterInterface.GenerateTokenRequest,
   ): Promise<JwtExternalAdapterInterface.GenerateTokenResponse> {
-    const token = jwt.sign({ uid: generateTokenData.USER_UID }, this.key);
+    const payload = {
+      uid: generateTokenData.USER_UID,
+      iat: Math.floor(Date.now() / 1000),
+    };
+    const token = jwt.sign(payload, this.key);
     return token;
   }
 
@@ -20,7 +24,8 @@ export class JwtExternalAdapter implements JwtExternalAdapterInterface {
     verifyTokenData: JwtExternalAdapterInterface.VerifyTokenRequest,
   ): Promise<JwtExternalAdapterInterface.VerifyTokenResponse> {
     try {
-      return jwt.verify(verifyTokenData, this.key) as string;
+      const decoded = jwt.verify(verifyTokenData, this.key);
+      return (decoded as any).uid as string;
     } catch (error) {
       return new ForbiddenError();
     }

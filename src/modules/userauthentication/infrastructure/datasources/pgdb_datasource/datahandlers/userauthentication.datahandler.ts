@@ -27,9 +27,9 @@ UserAuthenticationPGDBDataHandlerInterface {
         .where('USERS.USER_PHONE = :USER_PHONE', { USER_PHONE: verifyOtpData.USER_PHONE })
         .getCount()) > 0;
       if (isPhoneNumberAlreadyRegistered) {
-        return { data: { userAlreadyRegisted: true } };
+        return { data: { userAlreadyRegistered: true } };
       }
-      return { data: { userAlreadyRegisted: false } };
+      return { data: { userAlreadyRegistered: false } };
     } catch (error) {
       return new VerifyingOtpError();
     }

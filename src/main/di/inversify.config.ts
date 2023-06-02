@@ -1,5 +1,14 @@
+import { PrintJobDataModelEntity } from '@main/db/pg/datamodelentities/printjob.datamodelentity';
 import { UserDataModelEntity } from '@main/db/pg/datamodelentities/user.datamodelentity';
 import { appDataSource } from '@main/db/pg/setup/ormconfig';
+import { PrintRepositoryInterface } from '@modules/print/domain/interfaces/repositories/print.repository';
+import { NewPrintJobUsecaseInterface } from '@modules/print/domain/interfaces/usecases/newprintjob.usecase';
+import { NewPrintJobUsecase } from '@modules/print/domain/usecases/newprintjob.usecase';
+import { PrintPGDBDataHandler } from '@modules/print/infrastructure/datasources/pgdb_datasource/datahandlers/print.datahandler';
+import { AWSS3ExternalAdapter } from '@modules/print/infrastructure/externaladapters/storage_externaladapter/AWSs3/awss3.externaladapter';
+import { PrintPGDBDataHandlerInterface } from '@modules/print/infrastructure/interfaces/datasource_interface/pgdb/datahandlers/print.datahandler';
+import { AWSS3ExternalAdapterInterface } from '@modules/print/infrastructure/interfaces/externaladapter_interface/storage/AWSs3/awss3.externaladapter';
+import { PrintRepository } from '@modules/print/infrastructure/repositories/print.repository';
 import { UserAuthenticationRepositoryInterface } from '@modules/userauthentication/domain/interfaces/repositories_interface/userauthentication.repository';
 import { AuthenticateUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/authenticateuser/authenticateuser.usecase';
 import { SendOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/sendotp.usecase';
@@ -40,8 +49,25 @@ sl.bind<UserAuthenticationPGDBDataHandlerInterface>('UserAuthenticationPGDBDataH
 sl.bind<TwilioExternalAdapterInterface>('TwilioExternalAdapterInterface').to(TwilioExternalAdapter);
 sl.bind<JwtExternalAdapterInterface>('JwtExternalAdapterInterface').to(JwtExternalAdapter);
 
+// MODULE-PRINT
+
+//  UseCase
+sl.bind<NewPrintJobUsecaseInterface>('NewPrintJobUsecaseInterface').to(NewPrintJobUsecase);
+
+//  Repository
+sl.bind<PrintRepositoryInterface>('PrintRepositoryInterface').to(PrintRepository);
+
+//  DataSource
+sl.bind<PrintPGDBDataHandlerInterface>('PrintPGDBDataHandlerInterface').to(PrintPGDBDataHandler);
+
+//  ExternalAdapters
+sl.bind<AWSS3ExternalAdapterInterface>('AWSS3ExternalAdapterInterface').to(AWSS3ExternalAdapter);
+
 //  MAIN
 sl.bind<DataSource>('DataSource').toConstantValue(appDataSource);
 sl.bind<Repository<UserDataModelEntity>>('UserDataModelEntityRepository').toDynamicValue(
   (context) => context.container.get<DataSource>('DataSource').getRepository(UserDataModelEntity),
+);
+sl.bind<Repository<PrintJobDataModelEntity>>('PrintJobDataModelEntityRepository').toDynamicValue(
+  (context) => context.container.get<DataSource>('DataSource').getRepository(PrintJobDataModelEntity),
 );

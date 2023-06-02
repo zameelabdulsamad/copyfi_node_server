@@ -30,14 +30,19 @@ let JwtExternalAdapter = class JwtExternalAdapter {
     }
     generateToken(generateTokenData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const token = jsonwebtoken_1.default.sign({ uid: generateTokenData.USER_UID }, this.key);
+            const payload = {
+                uid: generateTokenData.USER_UID,
+                iat: Math.floor(Date.now() / 1000),
+            };
+            const token = jsonwebtoken_1.default.sign(payload, this.key);
             return token;
         });
     }
     verifyToken(verifyTokenData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return jsonwebtoken_1.default.verify(verifyTokenData, this.key);
+                const decoded = jsonwebtoken_1.default.verify(verifyTokenData, this.key);
+                return decoded.uid;
             }
             catch (error) {
                 return new ForbiddenError_1.ForbiddenError();

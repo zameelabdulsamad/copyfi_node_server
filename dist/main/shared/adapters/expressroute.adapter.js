@@ -16,7 +16,8 @@ const expressRouteAdapter = (controller) => (req, res) => __awaiter(void 0, void
         body: req.body,
         params: req.params,
         headers: req.headers,
-        userUid: req.userData,
+        userUid: req.userUid,
+        files: req.files,
     };
     const httpResponse = yield controller.handle(httpRequest);
     if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {

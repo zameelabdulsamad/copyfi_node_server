@@ -1,6 +1,7 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, BaseEntity,
+  Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany,
 } from 'typeorm';
+import { PrintJobDataModelEntity } from './printjob.datamodelentity';
 
 @Entity('USERS')
 export class UserDataModelEntity extends BaseEntity {
@@ -21,4 +22,7 @@ export class UserDataModelEntity extends BaseEntity {
     nullable: false,
   })
     USER_PHONE!: string;
+
+  @OneToMany(() => PrintJobDataModelEntity, (USER_PRINTJOB) => USER_PRINTJOB.PRINTJOB_USER)
+    USER_PRINTJOB!: PrintJobDataModelEntity[];
 }

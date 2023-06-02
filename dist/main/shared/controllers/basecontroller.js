@@ -26,6 +26,7 @@ class BaseController {
                 return yield this.execute(httpRequest);
             }
             catch (error) {
+                console.log(error);
                 return (0, http_helper_1.serverError)(error);
             }
         });

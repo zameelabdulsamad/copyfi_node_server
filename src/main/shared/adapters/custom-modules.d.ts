@@ -1,5 +1,5 @@
 declare module Express {
   interface Request {
-    userData?: string;
+    userUid?: string;
   }
 }

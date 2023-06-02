@@ -54,7 +54,7 @@ let UserAuthenticationRepository = class UserAuthenticationRepository {
             if (checkUserExistResult instanceof VerifyingOtpError_1.VerifyingOtpError) {
                 return checkUserExistResult;
             }
-            if (checkUserExistResult.data.userAlreadyRegisted === true) {
+            if (checkUserExistResult.data.userAlreadyRegistered === true) {
                 const getUserUIDResult = yield this.userAuthenticationPGDBDataHandlerInterface
                     .getUserUID(verifyOtpData);
                 if (getUserUIDResult instanceof UnauthorizedError_1.UnauthorizedError) {

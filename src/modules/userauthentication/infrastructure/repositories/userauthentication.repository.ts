@@ -52,7 +52,7 @@ export class UserAuthenticationRepository implements UserAuthenticationRepositor
       return checkUserExistResult;
     }
 
-    if (checkUserExistResult.data.userAlreadyRegisted === true) {
+    if (checkUserExistResult.data.userAlreadyRegistered === true) {
       const getUserUIDResult = await this.userAuthenticationPGDBDataHandlerInterface
         .getUserUID(verifyOtpData);
 

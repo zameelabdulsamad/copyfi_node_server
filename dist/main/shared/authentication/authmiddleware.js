@@ -32,7 +32,7 @@ class AuthMiddleware extends base_middleware_1.BaseMiddleware {
             if (userDataOrError instanceof ForbiddenError_1.ForbiddenError) {
                 return (0, http_helper_1.forbidden)(new InvalidAuthTokenError_1.InvalidAuthTokenError());
             }
-            return (0, http_helper_1.ok)(userDataOrError);
+            return (0, http_helper_1.ok)({ userUid: userDataOrError });
         });
     }
 }

@@ -1,3 +1,4 @@
+import PrintRoutes from '@modules/print/presentation/routers/print.routes';
 import UserAuthenticationRoutes from '@modules/userauthentication/presentation/routers/userauthentication.routes';
 import { Express, Router } from 'express';
 
@@ -6,4 +7,5 @@ export default function SetupRoutes(app: Express): void {
   app.use('/api', router);
 
   UserAuthenticationRoutes(router);
+  PrintRoutes(router);
 }
