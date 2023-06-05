@@ -19,6 +19,11 @@ export class UserDataModelEntity extends BaseEntity {
     USER_FULLNAME!: string;
 
   @Column({
+    nullable: true,
+  })
+    USER_REFRESHTOKEN!: string;
+
+  @Column({
     nullable: false,
   })
     USER_PHONE!: string;

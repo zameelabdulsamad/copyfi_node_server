@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthMiddleware = void 0;
-const ForbiddenError_1 = require("@modules/userauthentication/domain/errors/ForbiddenError");
+const tokeninvalid_error_1 = require("@modules/userauthentication/domain/errors/tokeninvalid.error");
 const AuthTokenNotProvidedError_1 = require("../errors/AuthTokenNotProvidedError");
 const InvalidAuthTokenError_1 = require("../errors/InvalidAuthTokenError");
 const http_helper_1 = require("../helpers/http_helper/http.helper");
@@ -28,11 +28,11 @@ class AuthMiddleware extends base_middleware_1.BaseMiddleware {
                 return (0, http_helper_1.forbidden)(new AuthTokenNotProvidedError_1.AuthTokenNotProvidedError());
             }
             const [, authToken] = authHeader.split(' ');
-            const userDataOrError = yield this.authenticate.execute(authToken);
-            if (userDataOrError instanceof ForbiddenError_1.ForbiddenError) {
+            const userDataOrError = yield this.authenticate.execute({ token: authToken });
+            if (userDataOrError instanceof tokeninvalid_error_1.InvalidTokenError) {
                 return (0, http_helper_1.forbidden)(new InvalidAuthTokenError_1.InvalidAuthTokenError());
             }
-            return (0, http_helper_1.ok)({ userUid: userDataOrError });
+            return (0, http_helper_1.ok)({ userUid: userDataOrError.data.uid });
         });
     }
 }

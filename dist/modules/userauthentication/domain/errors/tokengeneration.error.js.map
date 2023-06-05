@@ -1,0 +1,1 @@
+{"version":3,"file":"tokengeneration.error.js","sourceRoot":"","sources":["../../../../../src/modules/userauthentication/domain/errors/tokengeneration.error.ts"],"names":[],"mappings":";;;AAAA,MAAa,oBAAqB,SAAQ,KAAK;IAC7C;QACE,KAAK,CAAC,wBAAwB,CAAC,CAAC;QAChC,IAAI,CAAC,IAAI,GAAG,sBAAsB,CAAC;IACrC,CAAC;CACF;AALD,oDAKC"}

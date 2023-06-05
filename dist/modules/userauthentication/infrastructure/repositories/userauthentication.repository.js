@@ -28,7 +28,13 @@ const PhoneInUseError_1 = require("@modules/userauthentication/domain/errors/Pho
 const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/VerifyingOtpError");
 const IncorrectOtpError_1 = require("@modules/userauthentication/domain/errors/IncorrectOtpError");
 const RegisterUserError_1 = require("@modules/userauthentication/domain/errors/RegisterUserError");
-const UnauthorizedError_1 = require("@modules/userauthentication/domain/errors/UnauthorizedError");
+const SendingOtpError_1 = require("@modules/userauthentication/domain/errors/SendingOtpError");
+const pgdatabaseaccess_error_1 = require("@modules/userauthentication/domain/errors/pgdatabaseaccess.error");
+const twilioapi_error_1 = require("@modules/userauthentication/domain/errors/twilioapi.error");
+const tokengeneration_error_1 = require("@modules/userauthentication/domain/errors/tokengeneration.error");
+const tokeninvalid_error_1 = require("@modules/userauthentication/domain/errors/tokeninvalid.error");
+const refreshtokeninvalid_error_1 = require("@modules/userauthentication/domain/errors/refreshtokeninvalid.error");
+const refreshtokengeneration_error_1 = require("@modules/userauthentication/domain/errors/refreshtokengeneration.error");
 let UserAuthenticationRepository = class UserAuthenticationRepository {
     constructor(twilioExternalAdapterInterface, jwtExternalAdapterInterface, userAuthenticationPGDBDataHandlerInterface) {
         this.twilioExternalAdapterInterface = twilioExternalAdapterInterface;
@@ -37,7 +43,18 @@ let UserAuthenticationRepository = class UserAuthenticationRepository {
     }
     sendOtp(sendOtpData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.twilioExternalAdapterInterface.sendOtp(sendOtpData);
+            const twilioExternalAdapterData = yield this.twilioExternalAdapterInterface
+                .sendOtp(sendOtpData);
+            if (twilioExternalAdapterData instanceof SendingOtpError_1.SendingOtpError) {
+                return twilioExternalAdapterData;
+            }
+            if (twilioExternalAdapterData instanceof twilioapi_error_1.TwilioAPIError) {
+                return new SendingOtpError_1.SendingOtpError();
+            }
+            if (twilioExternalAdapterData.success === true) {
+                return { message: 'OTP has been sent successfully' };
+            }
+            return new SendingOtpError_1.SendingOtpError();
         });
     }
     verifyOtp(verifyOtpData) {
@@ -46,54 +63,134 @@ let UserAuthenticationRepository = class UserAuthenticationRepository {
             if (verifyOtpResult instanceof IncorrectOtpError_1.IncorrectOtpError) {
                 return verifyOtpResult;
             }
-            if (verifyOtpResult instanceof VerifyingOtpError_1.VerifyingOtpError) {
-                return verifyOtpResult;
+            if (verifyOtpResult instanceof twilioapi_error_1.TwilioAPIError) {
+                return new VerifyingOtpError_1.VerifyingOtpError();
             }
-            const checkUserExistResult = yield this.userAuthenticationPGDBDataHandlerInterface
-                .checkUserExist(verifyOtpData);
-            if (checkUserExistResult instanceof VerifyingOtpError_1.VerifyingOtpError) {
-                return checkUserExistResult;
-            }
-            if (checkUserExistResult.data.userAlreadyRegistered === true) {
-                const getUserUIDResult = yield this.userAuthenticationPGDBDataHandlerInterface
-                    .getUserUID(verifyOtpData);
-                if (getUserUIDResult instanceof UnauthorizedError_1.UnauthorizedError) {
-                    return getUserUIDResult;
+            if (verifyOtpResult.success === true) {
+                const checkUserExistResult = yield this.userAuthenticationPGDBDataHandlerInterface
+                    .checkUserExist(verifyOtpData);
+                if (checkUserExistResult instanceof pgdatabaseaccess_error_1.DatabaseAccessError) {
+                    return new VerifyingOtpError_1.VerifyingOtpError();
                 }
-                const generateTokenResult = yield this.jwtExternalAdapterInterface.generateToken(getUserUIDResult);
-                if (generateTokenResult instanceof UnauthorizedError_1.UnauthorizedError) {
-                    return generateTokenResult;
+                if (checkUserExistResult.data.userAlreadyRegistered === true) {
+                    const getUserUIDResult = yield this.userAuthenticationPGDBDataHandlerInterface
+                        .getUserUID(verifyOtpData);
+                    if (getUserUIDResult instanceof pgdatabaseaccess_error_1.DatabaseAccessError) {
+                        return new VerifyingOtpError_1.VerifyingOtpError();
+                    }
+                    const generateTokenResult = yield this.jwtExternalAdapterInterface.generateToken({
+                        USER_UID: getUserUIDResult.data.userUid,
+                    });
+                    if (generateTokenResult instanceof tokengeneration_error_1.TokenGenerationError) {
+                        return new VerifyingOtpError_1.VerifyingOtpError();
+                    }
+                    const saveRefreshToken = yield this.userAuthenticationPGDBDataHandlerInterface
+                        .saveRefreshToken({
+                        USER_UID: getUserUIDResult.data.userUid,
+                        USER_REFRESHTOKEN: generateTokenResult.data.refreshToken,
+                    });
+                    if (saveRefreshToken instanceof pgdatabaseaccess_error_1.DatabaseAccessError) {
+                        return new VerifyingOtpError_1.VerifyingOtpError();
+                    }
+                    return {
+                        message: 'OTP successfully verified',
+                        data: {
+                            userAlreadyRegistered: checkUserExistResult.data.userAlreadyRegistered,
+                            token: generateTokenResult.data.token,
+                            refreshToken: generateTokenResult.data.refreshToken,
+                        },
+                    };
                 }
-                const newcheckUserExistResult = Object.assign(Object.assign({}, checkUserExistResult.data), { TOKEN: generateTokenResult });
                 return {
-                    message: verifyOtpResult.message,
-                    data: newcheckUserExistResult,
+                    message: 'OTP successfully verified',
+                    data: { userAlreadyRegistered: checkUserExistResult.data.userAlreadyRegistered },
                 };
             }
-            return {
-                message: verifyOtpResult.message,
-                data: checkUserExistResult.data,
-            };
+            return new VerifyingOtpError_1.VerifyingOtpError();
         });
     }
     registerUser(registerUserData) {
         return __awaiter(this, void 0, void 0, function* () {
             const newUserData = yield this.userAuthenticationPGDBDataHandlerInterface
                 .registerUser(registerUserData);
-            if (newUserData instanceof PhoneInUseError_1.PhoneInUseError || newUserData instanceof RegisterUserError_1.RegisterUserError) {
+            if (newUserData instanceof PhoneInUseError_1.PhoneInUseError) {
                 return newUserData;
             }
-            const generateTokenResult = yield this.jwtExternalAdapterInterface.generateToken(newUserData.data);
-            if (generateTokenResult instanceof UnauthorizedError_1.UnauthorizedError) {
-                return generateTokenResult;
+            if (newUserData instanceof pgdatabaseaccess_error_1.DatabaseAccessError) {
+                return new RegisterUserError_1.RegisterUserError();
             }
-            const newUserDataWithToken = Object.assign(Object.assign({}, newUserData.data), { TOKEN: generateTokenResult });
-            return { message: 'User registration successful', data: newUserDataWithToken };
+            const generateTokenResult = yield this.jwtExternalAdapterInterface.generateToken({
+                USER_UID: newUserData.data.userUid,
+            });
+            if (generateTokenResult instanceof tokengeneration_error_1.TokenGenerationError) {
+                return new RegisterUserError_1.RegisterUserError();
+            }
+            const saveRefreshToken = yield this.userAuthenticationPGDBDataHandlerInterface
+                .saveRefreshToken({
+                USER_UID: newUserData.data.userUid,
+                USER_REFRESHTOKEN: generateTokenResult.data.refreshToken,
+            });
+            if (saveRefreshToken instanceof pgdatabaseaccess_error_1.DatabaseAccessError) {
+                return new RegisterUserError_1.RegisterUserError();
+            }
+            return {
+                message: 'User registration successful',
+                data: {
+                    userFullname: newUserData.data.userFullname,
+                    userEmail: newUserData.data.userEmail,
+                    userPhone: newUserData.data.userPhone,
+                    token: generateTokenResult.data.token,
+                    refreshToken: generateTokenResult.data.refreshToken,
+                },
+            };
         });
     }
     authenticateUser(authenticateUserData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.jwtExternalAdapterInterface.verifyToken(authenticateUserData);
+            const jwtExternalAdapterData = yield this.jwtExternalAdapterInterface
+                .verifyToken({ token: authenticateUserData.token });
+            if (jwtExternalAdapterData instanceof tokeninvalid_error_1.InvalidTokenError) {
+                return new tokeninvalid_error_1.InvalidTokenError();
+            }
+            return { message: 'Access token verified and is valid', data: { uid: jwtExternalAdapterData.data.userUid } };
+        });
+    }
+    refreshToken(refreshTokenData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const payload = yield this.jwtExternalAdapterInterface
+                .verifyToken({ token: refreshTokenData.USER_REFRESHTOKEN });
+            if (payload instanceof tokeninvalid_error_1.InvalidTokenError) {
+                return new refreshtokeninvalid_error_1.InvalidRefreshTokenError();
+            }
+            const refreshTokenFromDB = yield this.userAuthenticationPGDBDataHandlerInterface
+                .getRefreshToken({ USER_UID: payload.data.userUid });
+            if (refreshTokenFromDB instanceof pgdatabaseaccess_error_1.DatabaseAccessError) {
+                return new refreshtokengeneration_error_1.RefreshTokenGenerationError();
+            }
+            if (refreshTokenData.USER_REFRESHTOKEN !== refreshTokenFromDB.data.refreshToken) {
+                return new refreshtokeninvalid_error_1.InvalidRefreshTokenError();
+            }
+            const generateNewTokenResult = yield this.jwtExternalAdapterInterface.generateToken({
+                USER_UID: payload.data.userUid,
+            });
+            if (generateNewTokenResult instanceof tokengeneration_error_1.TokenGenerationError) {
+                return new refreshtokengeneration_error_1.RefreshTokenGenerationError();
+            }
+            const saveRefreshToken = yield this.userAuthenticationPGDBDataHandlerInterface
+                .saveRefreshToken({
+                USER_UID: payload.data.userUid,
+                USER_REFRESHTOKEN: generateNewTokenResult.data.refreshToken,
+            });
+            if (saveRefreshToken instanceof pgdatabaseaccess_error_1.DatabaseAccessError) {
+                return new refreshtokengeneration_error_1.RefreshTokenGenerationError();
+            }
+            return {
+                message: 'Refresh Token updation successful',
+                data: {
+                    token: generateNewTokenResult.data.token,
+                    refreshToken: generateNewTokenResult.data.refreshToken,
+                },
+            };
         });
     }
 };

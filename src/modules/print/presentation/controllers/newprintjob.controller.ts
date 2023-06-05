@@ -25,7 +25,7 @@ export class NewPrintJobController extends BaseController {
     if (fileUploadedOrError instanceof UploadingFileError) {
       return badRequest(fileUploadedOrError);
     }
-    return ok(fileUploadedOrError.message);
+    return ok({ message: fileUploadedOrError.message, data: fileUploadedOrError.data });
   }
 }
 

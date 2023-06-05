@@ -1,8 +1,6 @@
 import { UserDataModelEntity } from '@main/db/pg/datamodelentities/user.datamodelentity';
+import { DatabaseAccessError } from '@modules/userauthentication/domain/errors/pgdatabaseaccess.error';
 import { PhoneInUseError } from '@modules/userauthentication/domain/errors/PhoneInUseError';
-import { RegisterUserError } from '@modules/userauthentication/domain/errors/RegisterUserError';
-import { UnauthorizedError } from '@modules/userauthentication/domain/errors/UnauthorizedError';
-import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/VerifyingOtpError';
 import { UserAuthenticationPGDBDataHandlerInterface } from '@modules/userauthentication/infrastructure/interfaces/datasource_interface/pgdb/datahandlers/userauthentication.datahandler';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
@@ -19,19 +17,23 @@ UserAuthenticationPGDBDataHandlerInterface {
     this.userDataModelEntity = userDataModelEntity;
   }
 
-  async checkUserExist(verifyOtpData: UserAuthenticationPGDBDataHandlerInterface.VerifyOtpRequest):
-  Promise<UserAuthenticationPGDBDataHandlerInterface.VerifyOtpResponse> {
+  async checkUserExist(checkUserExistData: UserAuthenticationPGDBDataHandlerInterface
+    .CheckUserExistRequest):
+    Promise<UserAuthenticationPGDBDataHandlerInterface.CheckUserExistResponse> {
     try {
       const isPhoneNumberAlreadyRegistered = (await this.userDataModelEntity.createQueryBuilder('USERS')
         .select('USERS.USER_UID')
-        .where('USERS.USER_PHONE = :USER_PHONE', { USER_PHONE: verifyOtpData.USER_PHONE })
+        .where('USERS.USER_PHONE = :USER_PHONE', { USER_PHONE: checkUserExistData.USER_PHONE })
         .getCount()) > 0;
       if (isPhoneNumberAlreadyRegistered) {
         return { data: { userAlreadyRegistered: true } };
       }
       return { data: { userAlreadyRegistered: false } };
     } catch (error) {
-      return new VerifyingOtpError();
+      if (error instanceof Error) {
+        return new DatabaseAccessError(error.message);
+      }
+      return new DatabaseAccessError('Unknown error occurred');
     }
   }
 
@@ -51,23 +53,75 @@ UserAuthenticationPGDBDataHandlerInterface {
         USER_PHONE: registerUserData.USER_PHONE,
         USER_FULLNAME: registerUserData.USER_FULLNAME,
       });
-      return { data: newUser };
+      return {
+        data: {
+          userEmail: newUser.USER_EMAIL,
+          userFullname: newUser.USER_FULLNAME,
+          userPhone: newUser.USER_PHONE,
+          userUid: newUser.USER_UID,
+
+        },
+      };
     } catch (error) {
-      return new RegisterUserError();
+      if (error instanceof Error) {
+        return new DatabaseAccessError(error.message);
+      }
+      return new DatabaseAccessError('Unknown error occurred');
     }
   }
 
   async getUserUID(
-    loginUserData: UserAuthenticationPGDBDataHandlerInterface.LoginUserRequest,
-  ): Promise<UserAuthenticationPGDBDataHandlerInterface.LoginUserResponse> {
+    loginUserData: UserAuthenticationPGDBDataHandlerInterface.GetUserUIDRequest,
+  ): Promise<UserAuthenticationPGDBDataHandlerInterface.GetUserUIDResponse> {
     try {
       const userUID = (await this.userDataModelEntity.createQueryBuilder('USERS')
         .select('USERS.USER_UID')
         .where('USERS.USER_PHONE = :USER_PHONE', { USER_PHONE: loginUserData.USER_PHONE })
         .getOneOrFail());
-      return userUID;
+      return { data: { userUid: userUID.USER_UID } };
     } catch (error) {
-      return new UnauthorizedError();
+      if (error instanceof Error) {
+        return new DatabaseAccessError(error.message);
+      }
+      return new DatabaseAccessError('Unknown error occurred');
+    }
+  }
+
+  async saveRefreshToken(
+    saveRefreshTokenData: UserAuthenticationPGDBDataHandlerInterface.SaveRefreshTokenRequest,
+  ): Promise<UserAuthenticationPGDBDataHandlerInterface.SaveRefreshTokenResponse> {
+    try {
+      const userUID = saveRefreshTokenData.USER_UID;
+      const refreshToken = saveRefreshTokenData.USER_REFRESHTOKEN;
+
+      await this.userDataModelEntity.createQueryBuilder()
+        .update()
+        .set({ USER_REFRESHTOKEN: refreshToken })
+        .where('USER_UID = :USER_UID', { USER_UID: userUID })
+        .execute();
+      return { success: true };
+    } catch (error) {
+      if (error instanceof Error) {
+        return new DatabaseAccessError(error.message);
+      }
+      return new DatabaseAccessError('Unknown error occurred');
+    }
+  }
+
+  async getRefreshToken(
+    getRefreshTokenData: UserAuthenticationPGDBDataHandlerInterface.GetRefreshTokenRequest,
+  ): Promise<UserAuthenticationPGDBDataHandlerInterface.GetRefreshTokenResponse> {
+    try {
+      const refreshToken = (await this.userDataModelEntity.createQueryBuilder('USERS')
+        .select('USERS.USER_REFRESHTOKEN')
+        .where('USERS.USER_UID = :USER_UID', { USER_UID: getRefreshTokenData.USER_UID })
+        .getOneOrFail());
+      return { data: { refreshToken: refreshToken.USER_REFRESHTOKEN } };
+    } catch (error) {
+      if (error instanceof Error) {
+        return new DatabaseAccessError(error.message);
+      }
+      return new DatabaseAccessError('Unknown error occurred');
     }
   }
 }

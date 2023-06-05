@@ -12,5 +12,10 @@ export interface NewPrintJobUsecaseInterface extends
 
 export namespace NewPrintJobUsecaseInterface {
   export type Request = Omit<PrintJobEntityInterface, 'PRINTJOB_UID' | 'PRINTJOB_TIME'>;
-  export type Response = { message: string, data: any } | UploadingFileError;
+  export type ResponseDataType = {
+    printJobUid:string;
+    printJobTime:string;
+    printJobFile:string[];
+  };
+  export type Response = { message: string, data: ResponseDataType } | UploadingFileError;
 }

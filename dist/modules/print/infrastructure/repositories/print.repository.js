@@ -25,6 +25,8 @@ exports.PrintRepository = void 0;
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 const uploadingfile_error_1 = require("@modules/print/domain/errors/uploadingfile.error");
+const pgdatabaseaccess_error_1 = require("@modules/userauthentication/domain/errors/pgdatabaseaccess.error");
+const awss3upload_error_1 = require("@modules/print/domain/errors/awss3upload.error");
 let PrintRepository = class PrintRepository {
     constructor(printPGDBDataHandlerInterface, awsS3ExternalAdapterInterface) {
         this.printPGDBDataHandlerInterface = printPGDBDataHandlerInterface;
@@ -33,16 +35,25 @@ let PrintRepository = class PrintRepository {
     newPrintJob(newPrintJobData) {
         return __awaiter(this, void 0, void 0, function* () {
             const uploadToS3 = yield this.awsS3ExternalAdapterInterface.savePrintjobFiles(newPrintJobData);
-            if (uploadToS3 instanceof uploadingfile_error_1.UploadingFileError) {
-                return uploadToS3;
+            if (uploadToS3 instanceof awss3upload_error_1.AWSS3UploadError) {
+                return new uploadingfile_error_1.UploadingFileError();
             }
-            const newPrintJobDataWithFileLocation = Object.assign(Object.assign({}, newPrintJobData), { fileLocation: uploadToS3.data });
             const printJobData = yield this.printPGDBDataHandlerInterface
-                .savePrintjobFiles(newPrintJobDataWithFileLocation);
-            if (printJobData instanceof uploadingfile_error_1.UploadingFileError) {
-                return printJobData;
+                .savePrintjobFiles({
+                fileLocation: uploadToS3.data.fileLocationS3,
+                PRINTJOB_USER: newPrintJobData.PRINTJOB_USER,
+            });
+            if (printJobData instanceof pgdatabaseaccess_error_1.DatabaseAccessError) {
+                return new uploadingfile_error_1.UploadingFileError();
             }
-            return { message: 'Upload successful', data: printJobData };
+            return {
+                message: 'Upload successful',
+                data: {
+                    printJobFile: uploadToS3.data.fileLocationS3,
+                    printJobTime: printJobData.data.printJobTime,
+                    printJobUid: printJobData.data.printJobUid,
+                },
+            };
         });
     }
 };

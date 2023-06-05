@@ -1,5 +1,5 @@
-import { ForbiddenError } from '@modules/userauthentication/domain/errors/ForbiddenError';
-import { AuthenticateUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/authenticateuser/authenticateuser.usecase';
+import { InvalidTokenError } from '@modules/userauthentication/domain/errors/tokeninvalid.error';
+import { AuthenticateUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/authenticateuser.usecase';
 import { AuthTokenNotProvidedError } from '../errors/AuthTokenNotProvidedError';
 import { InvalidAuthTokenError } from '../errors/InvalidAuthTokenError';
 import { forbidden, ok } from '../helpers/http_helper/http.helper';
@@ -20,11 +20,11 @@ export class AuthMiddleware extends BaseMiddleware {
       return forbidden(new AuthTokenNotProvidedError());
     }
     const [, authToken] = authHeader.split(' ');
-    const userDataOrError = await this.authenticate.execute(authToken);
-    if (userDataOrError instanceof ForbiddenError) {
+    const userDataOrError = await this.authenticate.execute({ token: authToken });
+    if (userDataOrError instanceof InvalidTokenError) {
       return forbidden(new InvalidAuthTokenError());
     }
-    return ok({ userUid: userDataOrError });
+    return ok({ userUid: userDataOrError.data.uid });
   }
 }
 

@@ -1,0 +1,1 @@
+{"version":3,"file":"twilioapi.error.js","sourceRoot":"","sources":["../../../../../src/modules/userauthentication/domain/errors/twilioapi.error.ts"],"names":[],"mappings":";;;AAAA,MAAa,cAAe,SAAQ,KAAK;IACvC,YAAY,oBAA4B;QACtC,KAAK,CAAC,4DAA4D,oBAAoB,EAAE,CAAC,CAAC;QAC1F,IAAI,CAAC,IAAI,GAAG,gBAAgB,CAAC;IAC/B,CAAC;CACF;AALD,wCAKC"}

@@ -8,5 +8,11 @@ export interface PrintRepositoryInterface {
 
 export namespace PrintRepositoryInterface {
   export type NewPrintJobRequest = Omit<PrintJobEntityInterface, 'PRINTJOB_UID' | 'PRINTJOB_TIME'>;
-  export type NewPrintJobResponse = { message: string, data: any } | UploadingFileError;
+  export type NewPrintJobResponseDataType = {
+    printJobUid:string;
+    printJobTime:Date;
+    printJobFile:string[];
+  };
+  export type NewPrintJobResponse = { message: string, data: NewPrintJobResponseDataType }
+  | UploadingFileError;
 }

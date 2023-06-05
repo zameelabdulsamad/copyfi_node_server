@@ -32,6 +32,12 @@ __decorate([
 ], UserDataModelEntity.prototype, "USER_FULLNAME", void 0);
 __decorate([
     (0, typeorm_1.Column)({
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], UserDataModelEntity.prototype, "USER_REFRESHTOKEN", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
         nullable: false,
     }),
     __metadata("design:type", String)

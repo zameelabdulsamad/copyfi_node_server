@@ -22,7 +22,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrintPGDBDataHandler = void 0;
-const uploadingfile_error_1 = require("@modules/print/domain/errors/uploadingfile.error");
+const pgdatabaseaccess_error_1 = require("@modules/userauthentication/domain/errors/pgdatabaseaccess.error");
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
@@ -42,10 +42,18 @@ let PrintPGDBDataHandler = class PrintPGDBDataHandler {
                     PRINTJOB_USER: user,
                     PRINTJOB_FILE: printJobFilesData.fileLocation,
                 });
-                return { data: newPrintJob };
+                return {
+                    data: {
+                        printJobTime: newPrintJob.PRINTJOB_TIME,
+                        printJobUid: newPrintJob.PRINTJOB_UID,
+                    },
+                };
             }
             catch (error) {
-                return new uploadingfile_error_1.UploadingFileError();
+                if (error instanceof Error) {
+                    return new pgdatabaseaccess_error_1.DatabaseAccessError(error.message);
+                }
+                return new pgdatabaseaccess_error_1.DatabaseAccessError('Unknown error occurred');
             }
         });
     }

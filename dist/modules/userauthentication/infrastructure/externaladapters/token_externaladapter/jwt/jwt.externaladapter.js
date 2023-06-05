@@ -20,7 +20,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JwtExternalAdapter = void 0;
 const env_1 = __importDefault(require("@main/config/env"));
-const ForbiddenError_1 = require("@modules/userauthentication/domain/errors/ForbiddenError");
+const tokengeneration_error_1 = require("@modules/userauthentication/domain/errors/tokengeneration.error");
+const tokeninvalid_error_1 = require("@modules/userauthentication/domain/errors/tokeninvalid.error");
 const inversify_1 = require("inversify");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("reflect-metadata");
@@ -30,22 +31,28 @@ let JwtExternalAdapter = class JwtExternalAdapter {
     }
     generateToken(generateTokenData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = {
-                uid: generateTokenData.USER_UID,
-                iat: Math.floor(Date.now() / 1000),
-            };
-            const token = jsonwebtoken_1.default.sign(payload, this.key);
-            return token;
+            try {
+                const payload = {
+                    uid: generateTokenData.USER_UID,
+                    iat: Math.floor(Date.now() / 1000),
+                };
+                const token = jsonwebtoken_1.default.sign(payload, this.key, { expiresIn: '50m' });
+                const refreshToken = jsonwebtoken_1.default.sign(payload, this.key, { expiresIn: '25d' });
+                return { data: { token, refreshToken } };
+            }
+            catch (error) {
+                return new tokengeneration_error_1.TokenGenerationError();
+            }
         });
     }
     verifyToken(verifyTokenData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const decoded = jsonwebtoken_1.default.verify(verifyTokenData, this.key);
-                return decoded.uid;
+                const decoded = jsonwebtoken_1.default.verify(verifyTokenData.token, this.key);
+                return { data: { userUid: decoded.uid } };
             }
             catch (error) {
-                return new ForbiddenError_1.ForbiddenError();
+                return new tokeninvalid_error_1.InvalidTokenError();
             }
         });
     }

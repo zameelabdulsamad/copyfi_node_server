@@ -22,10 +22,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserAuthenticationPGDBDataHandler = void 0;
+const pgdatabaseaccess_error_1 = require("@modules/userauthentication/domain/errors/pgdatabaseaccess.error");
 const PhoneInUseError_1 = require("@modules/userauthentication/domain/errors/PhoneInUseError");
-const RegisterUserError_1 = require("@modules/userauthentication/domain/errors/RegisterUserError");
-const UnauthorizedError_1 = require("@modules/userauthentication/domain/errors/UnauthorizedError");
-const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/VerifyingOtpError");
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
@@ -33,12 +31,12 @@ let UserAuthenticationPGDBDataHandler = class UserAuthenticationPGDBDataHandler 
     constructor(userDataModelEntity) {
         this.userDataModelEntity = userDataModelEntity;
     }
-    checkUserExist(verifyOtpData) {
+    checkUserExist(checkUserExistData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const isPhoneNumberAlreadyRegistered = (yield this.userDataModelEntity.createQueryBuilder('USERS')
                     .select('USERS.USER_UID')
-                    .where('USERS.USER_PHONE = :USER_PHONE', { USER_PHONE: verifyOtpData.USER_PHONE })
+                    .where('USERS.USER_PHONE = :USER_PHONE', { USER_PHONE: checkUserExistData.USER_PHONE })
                     .getCount()) > 0;
                 if (isPhoneNumberAlreadyRegistered) {
                     return { data: { userAlreadyRegistered: true } };
@@ -46,7 +44,10 @@ let UserAuthenticationPGDBDataHandler = class UserAuthenticationPGDBDataHandler 
                 return { data: { userAlreadyRegistered: false } };
             }
             catch (error) {
-                return new VerifyingOtpError_1.VerifyingOtpError();
+                if (error instanceof Error) {
+                    return new pgdatabaseaccess_error_1.DatabaseAccessError(error.message);
+                }
+                return new pgdatabaseaccess_error_1.DatabaseAccessError('Unknown error occurred');
             }
         });
     }
@@ -65,10 +66,20 @@ let UserAuthenticationPGDBDataHandler = class UserAuthenticationPGDBDataHandler 
                     USER_PHONE: registerUserData.USER_PHONE,
                     USER_FULLNAME: registerUserData.USER_FULLNAME,
                 });
-                return { data: newUser };
+                return {
+                    data: {
+                        userEmail: newUser.USER_EMAIL,
+                        userFullname: newUser.USER_FULLNAME,
+                        userPhone: newUser.USER_PHONE,
+                        userUid: newUser.USER_UID,
+                    },
+                };
             }
             catch (error) {
-                return new RegisterUserError_1.RegisterUserError();
+                if (error instanceof Error) {
+                    return new pgdatabaseaccess_error_1.DatabaseAccessError(error.message);
+                }
+                return new pgdatabaseaccess_error_1.DatabaseAccessError('Unknown error occurred');
             }
         });
     }
@@ -79,10 +90,50 @@ let UserAuthenticationPGDBDataHandler = class UserAuthenticationPGDBDataHandler 
                     .select('USERS.USER_UID')
                     .where('USERS.USER_PHONE = :USER_PHONE', { USER_PHONE: loginUserData.USER_PHONE })
                     .getOneOrFail());
-                return userUID;
+                return { data: { userUid: userUID.USER_UID } };
             }
             catch (error) {
-                return new UnauthorizedError_1.UnauthorizedError();
+                if (error instanceof Error) {
+                    return new pgdatabaseaccess_error_1.DatabaseAccessError(error.message);
+                }
+                return new pgdatabaseaccess_error_1.DatabaseAccessError('Unknown error occurred');
+            }
+        });
+    }
+    saveRefreshToken(saveRefreshTokenData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userUID = saveRefreshTokenData.USER_UID;
+                const refreshToken = saveRefreshTokenData.USER_REFRESHTOKEN;
+                yield this.userDataModelEntity.createQueryBuilder()
+                    .update()
+                    .set({ USER_REFRESHTOKEN: refreshToken })
+                    .where('USER_UID = :USER_UID', { USER_UID: userUID })
+                    .execute();
+                return { success: true };
+            }
+            catch (error) {
+                if (error instanceof Error) {
+                    return new pgdatabaseaccess_error_1.DatabaseAccessError(error.message);
+                }
+                return new pgdatabaseaccess_error_1.DatabaseAccessError('Unknown error occurred');
+            }
+        });
+    }
+    getRefreshToken(getRefreshTokenData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const refreshToken = (yield this.userDataModelEntity.createQueryBuilder('USERS')
+                    .select('USERS.USER_REFRESHTOKEN')
+                    .where('USERS.USER_UID = :USER_UID', { USER_UID: getRefreshTokenData.USER_UID })
+                    .getOneOrFail());
+                return { data: { refreshToken: refreshToken.USER_REFRESHTOKEN } };
+            }
+            catch (error) {
+                if (error instanceof Error) {
+                    return new pgdatabaseaccess_error_1.DatabaseAccessError(error.message);
+                }
+                return new pgdatabaseaccess_error_1.DatabaseAccessError('Unknown error occurred');
             }
         });
     }

@@ -4,6 +4,7 @@ exports.UserEntity = void 0;
 class UserEntity {
     constructor(props) {
         this.USER_UID = props.USER_UID;
+        this.USER_REFRESHTOKEN = props.USER_REFRESHTOKEN;
         this.USER_EMAIL = props.USER_EMAIL;
         this.USER_FULLNAME = props.USER_FULLNAME;
         this.USER_PHONE = props.USER_PHONE;

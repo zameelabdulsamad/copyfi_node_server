@@ -10,14 +10,14 @@ import { PrintPGDBDataHandlerInterface } from '@modules/print/infrastructure/int
 import { AWSS3ExternalAdapterInterface } from '@modules/print/infrastructure/interfaces/externaladapter_interface/storage/AWSs3/awss3.externaladapter';
 import { PrintRepository } from '@modules/print/infrastructure/repositories/print.repository';
 import { UserAuthenticationRepositoryInterface } from '@modules/userauthentication/domain/interfaces/repositories_interface/userauthentication.repository';
-import { AuthenticateUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/authenticateuser/authenticateuser.usecase';
-import { SendOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/sendotp.usecase';
-import { VerifyOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/otp/verifyotp.usecase';
-import { RegisterUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/registeruser/registeruser.usecase';
-import { AuthenticateUserUsecase } from '@modules/userauthentication/domain/usecases/authenticateuser_usecase/authenticateuser.usecase';
-import { SendOtpUsecase } from '@modules/userauthentication/domain/usecases/otp_usecase/sendotp.usecase';
-import { VerifyOtpUsecase } from '@modules/userauthentication/domain/usecases/otp_usecase/verifyotp.usecase';
-import { RegisterUserUsecase } from '@modules/userauthentication/domain/usecases/registeruser_usecase/registeruser.usecase';
+import { AuthenticateUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/authenticateuser.usecase';
+import { SendOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/sendotp.usecase';
+import { VerifyOtpUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/verifyotp.usecase';
+import { RegisterUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/registeruser.usecase';
+import { AuthenticateUserUsecase } from '@modules/userauthentication/domain/usecases/authenticateuser.usecase';
+import { SendOtpUsecase } from '@modules/userauthentication/domain/usecases/sendotp.usecase';
+import { VerifyOtpUsecase } from '@modules/userauthentication/domain/usecases/verifyotp.usecase';
+import { RegisterUserUsecase } from '@modules/userauthentication/domain/usecases/registeruser.usecase';
 import { UserAuthenticationPGDBDataHandler } from '@modules/userauthentication/infrastructure/datasources/pgdb_datasource/datahandlers/userauthentication.datahandler';
 import { TwilioExternalAdapter } from '@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/twilio.externaladapter';
 import { JwtExternalAdapter } from '@modules/userauthentication/infrastructure/externaladapters/token_externaladapter/jwt/jwt.externaladapter';
@@ -28,6 +28,8 @@ import { UserAuthenticationRepository } from '@modules/userauthentication/infras
 
 import { Container } from 'inversify';
 import { DataSource, Repository } from 'typeorm';
+import { RefreshTokenUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/refreshtoken.usecase';
+import { RefreshTokenUsecase } from '@modules/userauthentication/domain/usecases/refreshtoken.usecase';
 
 export const sl = new Container();
 
@@ -38,6 +40,7 @@ sl.bind<SendOtpUsecaseInterface>('SendOtpUsecaseInterface').to(SendOtpUsecase);
 sl.bind<VerifyOtpUsecaseInterface>('VerifyOtpUsecaseInterface').to(VerifyOtpUsecase);
 sl.bind<RegisterUserUsecaseInterface>('RegisterUserUsecaseInterface').to(RegisterUserUsecase);
 sl.bind<AuthenticateUserUsecaseInterface>('AuthenticateUserUsecaseInterface').to(AuthenticateUserUsecase);
+sl.bind<RefreshTokenUsecaseInterface>('RefreshTokenUsecaseInterface').to(RefreshTokenUsecase);
 
 //  Repository
 sl.bind<UserAuthenticationRepositoryInterface>('UserAuthenticationRepositoryInterface').to(UserAuthenticationRepository);

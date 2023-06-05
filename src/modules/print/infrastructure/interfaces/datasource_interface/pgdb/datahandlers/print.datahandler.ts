@@ -1,5 +1,5 @@
 import { PrintJobEntityInterface } from '@modules/print/domain/entities/printjob.entity';
-import { UploadingFileError } from '@modules/print/domain/errors/uploadingfile.error';
+import { DatabaseAccessError } from '@modules/userauthentication/domain/errors/pgdatabaseaccess.error';
 
 export interface PrintPGDBDataHandlerInterface {
   savePrintjobFiles(
@@ -8,6 +8,10 @@ export interface PrintPGDBDataHandlerInterface {
 }
 
 export namespace PrintPGDBDataHandlerInterface {
-  export type SavePrintJobRequest = Omit<PrintJobEntityInterface, 'PRINTJOB_UID' | 'PRINTJOB_TIME'> & { fileLocation: string[] };
-  export type SavePrintJobResponse = { data: any } | UploadingFileError;
+  export type SavePrintJobRequest = Omit<PrintJobEntityInterface, 'PRINTJOB_UID' | 'PRINTJOB_TIME' | 'PRINTJOB_FILE'> & { fileLocation: string[] };
+  export type SavePrintJobResponseDataType = {
+    printJobTime: Date;
+    printJobUid: string;
+  };
+  export type SavePrintJobResponse = { data: SavePrintJobResponseDataType } | DatabaseAccessError;
 }

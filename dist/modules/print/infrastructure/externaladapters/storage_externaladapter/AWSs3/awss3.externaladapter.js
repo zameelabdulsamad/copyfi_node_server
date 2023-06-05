@@ -47,6 +47,7 @@ const env_1 = __importDefault(require("@main/config/env"));
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 const AWS = __importStar(require("aws-sdk"));
+const awss3upload_error_1 = require("@modules/print/domain/errors/awss3upload.error");
 AWS.config.update({
     accessKeyId: env_1.default.s3Config.s3Accesskey,
     secretAccessKey: env_1.default.s3Config.s3SecretAccesskey,
@@ -56,19 +57,21 @@ const s3 = new AWS.S3();
 let AWSS3ExternalAdapter = class AWSS3ExternalAdapter {
     savePrintjobFiles(savePrintjobFilesData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const uploadPromises = savePrintjobFilesData.PRINTJOB_FILE.map((file) => __awaiter(this, void 0, void 0, function* () {
-                const params = {
-                    Bucket: env_1.default.s3Config.s3BucketName,
-                    Key: `${Date.now()}-${file.originalname}`,
-                    Body: file.buffer,
-                };
-                return s3.upload(params).promise();
-            }));
-            const results = yield Promise.all(uploadPromises);
-            const response = {
-                data: results.map((result) => result.Location),
-            };
-            return response;
+            try {
+                const uploadPromises = savePrintjobFilesData.PRINTJOB_FILE.map((file) => __awaiter(this, void 0, void 0, function* () {
+                    const params = {
+                        Bucket: env_1.default.s3Config.s3BucketName,
+                        Key: `${Date.now()}-${file.originalname}`,
+                        Body: file.buffer,
+                    };
+                    return s3.upload(params).promise();
+                }));
+                const results = yield Promise.all(uploadPromises);
+                return { data: { fileLocationS3: results.map((result) => result.Location) } };
+            }
+            catch (error) {
+                return new awss3upload_error_1.AWSS3UploadError();
+            }
         });
     }
 };

@@ -25,7 +25,7 @@ const twilio_1 = require("twilio");
 require("reflect-metadata");
 const IncorrectOtpError_1 = require("@modules/userauthentication/domain/errors/IncorrectOtpError");
 const SendingOtpError_1 = require("@modules/userauthentication/domain/errors/SendingOtpError");
-const VerifyingOtpError_1 = require("@modules/userauthentication/domain/errors/VerifyingOtpError");
+const twilioapi_error_1 = require("@modules/userauthentication/domain/errors/twilioapi.error");
 let TwilioExternalAdapter = class TwilioExternalAdapter {
     constructor() {
         this.credentials = {
@@ -43,12 +43,15 @@ let TwilioExternalAdapter = class TwilioExternalAdapter {
                     channel: 'sms',
                 });
                 if (verification.status === 'pending') {
-                    return { message: 'OTP has been sent successfully' };
+                    return { success: true };
                 }
                 return new SendingOtpError_1.SendingOtpError();
             }
             catch (error) {
-                return new SendingOtpError_1.SendingOtpError();
+                if (error instanceof Error) {
+                    return new twilioapi_error_1.TwilioAPIError(error.message);
+                }
+                return new twilioapi_error_1.TwilioAPIError('Unknown error occurred');
             }
         });
     }
@@ -61,12 +64,15 @@ let TwilioExternalAdapter = class TwilioExternalAdapter {
                     code: `${verifyOtpData.otp}`,
                 });
                 if (verifiedResponse.status === 'approved') {
-                    return { message: 'OTP successfully verified' };
+                    return { success: true };
                 }
                 return new IncorrectOtpError_1.IncorrectOtpError();
             }
             catch (error) {
-                return new VerifyingOtpError_1.VerifyingOtpError();
+                if (error instanceof Error) {
+                    return new twilioapi_error_1.TwilioAPIError(error.message);
+                }
+                return new twilioapi_error_1.TwilioAPIError('Unknown error occurred');
             }
         });
     }

@@ -1,7 +1,7 @@
 import { PrintJobDataModelEntity } from '@main/db/pg/datamodelentities/printjob.datamodelentity';
 import { UserDataModelEntity } from '@main/db/pg/datamodelentities/user.datamodelentity';
-import { UploadingFileError } from '@modules/print/domain/errors/uploadingfile.error';
 import { PrintPGDBDataHandlerInterface } from '@modules/print/infrastructure/interfaces/datasource_interface/pgdb/datahandlers/print.datahandler';
+import { DatabaseAccessError } from '@modules/userauthentication/domain/errors/pgdatabaseaccess.error';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { Repository } from 'typeorm';
@@ -35,9 +35,17 @@ PrintPGDBDataHandlerInterface {
         PRINTJOB_USER: user!,
         PRINTJOB_FILE: printJobFilesData.fileLocation,
       });
-      return { data: newPrintJob };
+      return {
+        data: {
+          printJobTime: newPrintJob.PRINTJOB_TIME,
+          printJobUid: newPrintJob.PRINTJOB_UID,
+        },
+      };
     } catch (error) {
-      return new UploadingFileError();
+      if (error instanceof Error) {
+        return new DatabaseAccessError(error.message);
+      }
+      return new DatabaseAccessError('Unknown error occurred');
     }
   }
 }

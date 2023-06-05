@@ -5,7 +5,7 @@ import 'reflect-metadata';
 import { TwilioExternalAdapterInterface } from '@modules/userauthentication/infrastructure/interfaces/externaladapter_interface/otp/twilio/twilio.externaladapter';
 import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/IncorrectOtpError';
 import { SendingOtpError } from '@modules/userauthentication/domain/errors/SendingOtpError';
-import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/VerifyingOtpError';
+import { TwilioAPIError } from '@modules/userauthentication/domain/errors/twilioapi.error';
 
 @injectable()
 export class TwilioExternalAdapter implements TwilioExternalAdapterInterface {
@@ -27,11 +27,14 @@ export class TwilioExternalAdapter implements TwilioExternalAdapterInterface {
         channel: 'sms',
       });
       if (verification.status === 'pending') {
-        return { message: 'OTP has been sent successfully' };
+        return { success: true };
       }
       return new SendingOtpError();
     } catch (error) {
-      return new SendingOtpError();
+      if (error instanceof Error) {
+        return new TwilioAPIError(error.message);
+      }
+      return new TwilioAPIError('Unknown error occurred');
     }
   }
 
@@ -47,11 +50,14 @@ export class TwilioExternalAdapter implements TwilioExternalAdapterInterface {
         code: `${verifyOtpData.otp}`,
       });
       if (verifiedResponse.status === 'approved') {
-        return { message: 'OTP successfully verified' };
+        return { success: true };
       }
       return new IncorrectOtpError();
     } catch (error) {
-      return new VerifyingOtpError();
+      if (error instanceof Error) {
+        return new TwilioAPIError(error.message);
+      }
+      return new TwilioAPIError('Unknown error occurred');
     }
   }
 }

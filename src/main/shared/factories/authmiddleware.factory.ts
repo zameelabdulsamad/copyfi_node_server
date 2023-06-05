@@ -1,5 +1,5 @@
 import { sl } from '@main/di/inversify.config';
-import { AuthenticateUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/authenticateuser/authenticateuser.usecase';
+import { AuthenticateUserUsecaseInterface } from '@modules/userauthentication/domain/interfaces/usecases_interface/authenticateuser.usecase';
 import { AuthMiddleware } from '../authentication/authmiddleware';
 import { BaseMiddleware } from '../middlewares/base.middleware';
 

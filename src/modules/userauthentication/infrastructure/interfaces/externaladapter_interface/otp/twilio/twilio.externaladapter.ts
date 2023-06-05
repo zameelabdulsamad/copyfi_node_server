@@ -1,7 +1,7 @@
 import { UserEntityInterface } from '@modules/userauthentication/domain/entities/user.entity';
 import { IncorrectOtpError } from '@modules/userauthentication/domain/errors/IncorrectOtpError';
 import { SendingOtpError } from '@modules/userauthentication/domain/errors/SendingOtpError';
-import { VerifyingOtpError } from '@modules/userauthentication/domain/errors/VerifyingOtpError';
+import { TwilioAPIError } from '@modules/userauthentication/domain/errors/twilioapi.error';
 
 export interface TwilioExternalAdapterInterface {
   sendOtp(
@@ -14,8 +14,8 @@ export interface TwilioExternalAdapterInterface {
 }
 
 export namespace TwilioExternalAdapterInterface {
-  export type SendOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'>;
-  export type SendOtpResponse = { message: string } | SendingOtpError;
-  export type VerifyOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME'> & { otp: string };
-  export type VerifyOtpResponse = { message: string } | VerifyingOtpError | IncorrectOtpError;
+  export type SendOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME' | 'USER_REFRESHTOKEN'>;
+  export type SendOtpResponse = { success: boolean } | SendingOtpError | TwilioAPIError;
+  export type VerifyOtpRequest = Omit<UserEntityInterface, 'USER_UID' | 'USER_EMAIL' | 'USER_FULLNAME' | 'USER_REFRESHTOKEN'> & { otp: string };
+  export type VerifyOtpResponse = { success: boolean } | TwilioAPIError | IncorrectOtpError;
 }

@@ -28,7 +28,7 @@ class NewPrintJobController extends basecontroller_1.BaseController {
             if (fileUploadedOrError instanceof uploadingfile_error_1.UploadingFileError) {
                 return (0, http_helper_1.badRequest)(fileUploadedOrError);
             }
-            return (0, http_helper_1.ok)(fileUploadedOrError.message);
+            return (0, http_helper_1.ok)({ message: fileUploadedOrError.message, data: fileUploadedOrError.data });
         });
     }
 }

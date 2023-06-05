@@ -8,15 +8,16 @@ const newprintjob_usecase_1 = require("@modules/print/domain/usecases/newprintjo
 const print_datahandler_1 = require("@modules/print/infrastructure/datasources/pgdb_datasource/datahandlers/print.datahandler");
 const awss3_externaladapter_1 = require("@modules/print/infrastructure/externaladapters/storage_externaladapter/AWSs3/awss3.externaladapter");
 const print_repository_1 = require("@modules/print/infrastructure/repositories/print.repository");
-const authenticateuser_usecase_1 = require("@modules/userauthentication/domain/usecases/authenticateuser_usecase/authenticateuser.usecase");
-const sendotp_usecase_1 = require("@modules/userauthentication/domain/usecases/otp_usecase/sendotp.usecase");
-const verifyotp_usecase_1 = require("@modules/userauthentication/domain/usecases/otp_usecase/verifyotp.usecase");
-const registeruser_usecase_1 = require("@modules/userauthentication/domain/usecases/registeruser_usecase/registeruser.usecase");
+const authenticateuser_usecase_1 = require("@modules/userauthentication/domain/usecases/authenticateuser.usecase");
+const sendotp_usecase_1 = require("@modules/userauthentication/domain/usecases/sendotp.usecase");
+const verifyotp_usecase_1 = require("@modules/userauthentication/domain/usecases/verifyotp.usecase");
+const registeruser_usecase_1 = require("@modules/userauthentication/domain/usecases/registeruser.usecase");
 const userauthentication_datahandler_1 = require("@modules/userauthentication/infrastructure/datasources/pgdb_datasource/datahandlers/userauthentication.datahandler");
 const twilio_externaladapter_1 = require("@modules/userauthentication/infrastructure/externaladapters/otp_externaladapter/twilio/twilio.externaladapter");
 const jwt_externaladapter_1 = require("@modules/userauthentication/infrastructure/externaladapters/token_externaladapter/jwt/jwt.externaladapter");
 const userauthentication_repository_1 = require("@modules/userauthentication/infrastructure/repositories/userauthentication.repository");
 const inversify_1 = require("inversify");
+const refreshtoken_usecase_1 = require("@modules/userauthentication/domain/usecases/refreshtoken.usecase");
 exports.sl = new inversify_1.Container();
 // MODULE-USERAUTHENTICATION
 //  UseCase
@@ -24,6 +25,7 @@ exports.sl.bind('SendOtpUsecaseInterface').to(sendotp_usecase_1.SendOtpUsecase);
 exports.sl.bind('VerifyOtpUsecaseInterface').to(verifyotp_usecase_1.VerifyOtpUsecase);
 exports.sl.bind('RegisterUserUsecaseInterface').to(registeruser_usecase_1.RegisterUserUsecase);
 exports.sl.bind('AuthenticateUserUsecaseInterface').to(authenticateuser_usecase_1.AuthenticateUserUsecase);
+exports.sl.bind('RefreshTokenUsecaseInterface').to(refreshtoken_usecase_1.RefreshTokenUsecase);
 //  Repository
 exports.sl.bind('UserAuthenticationRepositoryInterface').to(userauthentication_repository_1.UserAuthenticationRepository);
 //  DataSource
